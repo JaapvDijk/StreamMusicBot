@@ -1,10 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace StreamMusicBot
 {
     class Program
     {
         static async Task Main(string[] args)
-            => await new StreamMusicBotClient().InitializeAsync();
+        {
+            //var builder = new ConfigurationBuilder()
+            //    .AddJsonFile($"appsettings.json", true, true)
+            //    .AddEnvironmentVariables();
+
+            //var config = builder.Build();
+            await new StreamMusicBotClient().InitializeAsync();
+        }
     }
 }

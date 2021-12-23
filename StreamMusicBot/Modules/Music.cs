@@ -14,22 +14,6 @@ namespace StreamMusicBot.Modules
             _musicService = musicService;
         }
 
-        [Command("Join")]
-        public async Task Join()
-        {
-            var user = Context.User as SocketGuildUser;
-            if (user.VoiceChannel is null)
-            {
-                await ReplyAsync("You need to connect to a voice channel.");
-                return;
-            }
-            else
-            {
-                await _musicService.ConnectAsync(user.VoiceChannel, Context.Channel as ITextChannel);
-                await ReplyAsync($"now connected to {user.VoiceChannel.Name}");
-            }
-        }
-
         [Command("Leave")]
         public async Task Leave()
         {
@@ -46,9 +30,19 @@ namespace StreamMusicBot.Modules
         }
 
         [Command("Play")]
-        public async Task Play([Remainder]string query)
-            => await ReplyAsync(await _musicService.PlayAsync(query, Context.Guild.Id));
-
+        public async Task Play([Remainder] string query)
+        {
+            var user = Context.User as SocketGuildUser;
+            if (user.VoiceChannel is null)
+            {
+                await ReplyAsync("You need to connect to a voice channel.");
+                return;
+            }
+            else
+            {
+                await ReplyAsync(await _musicService.PlayAsync(query, Context, user.VoiceChannel));;
+            }
+        }
 
         [Command("Stop")]
         public async Task Stop()
@@ -69,5 +63,9 @@ namespace StreamMusicBot.Modules
         [Command("Resume")]
         public async Task Resume()
             => await ReplyAsync(await _musicService.ResumeAsync(Context.Guild.Id));
+
+        [Command("Queue")]
+        public async Task Queue()
+            => await ReplyAsync(await _musicService.QueueAsync(Context.Guild.Id));
     }
 }

@@ -8,9 +8,9 @@ namespace StreamMusicBot.Services
     {
         public Config GetConfig()
         {
-            var file = "Config.json";
-            var data = File.ReadAllText(file);
-            return JsonConvert.DeserializeObject<Config>(data);
+
+            //TODO:
+            return new Config();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System.Linq;
 using System.Threading.Tasks;
 using Victoria;
 using Victoria.Entities;
+using System.Linq;
 
 namespace StreamMusicBot.Services
 {
@@ -31,15 +33,14 @@ namespace StreamMusicBot.Services
             return Task.CompletedTask;
         }
 
-        public async Task ConnectAsync(SocketVoiceChannel voiceChannel, ITextChannel textChannel)
-            => await _lavaSocketClient.ConnectAsync(voiceChannel, textChannel);
-
         public async Task LeaveAsync(SocketVoiceChannel voiceChannel)
             => await _lavaSocketClient.DisconnectAsync(voiceChannel);
 
-        public async Task<string> PlayAsync(string query, ulong guildId)
+        public async Task<string> PlayAsync(string query, SocketCommandContext context, SocketVoiceChannel voiceChannel)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
+            await _lavaSocketClient.ConnectAsync(voiceChannel, (ITextChannel)context.Channel);
+
+            var _player = _lavaSocketClient.GetPlayer(context.Guild.Id);
             var results = await _lavaRestClient.SearchYouTubeAsync(query);
 
             if (results.LoadType == LoadType.NoMatches || results.LoadType == LoadType.LoadFailed)
@@ -87,9 +88,9 @@ namespace StreamMusicBot.Services
             if (_player is null)
                 return "Player isn't playing.";
 
-            if (vol > 150 || vol <= 2)
+            if (vol > 100 || vol <= 2)
             {
-                return "Please use a number between 2 - 150";
+                return "Please use a number between 2 - 100";
             }
 
             await _player.SetVolumeAsync(vol);
@@ -129,6 +130,19 @@ namespace StreamMusicBot.Services
             return "Player is not paused.";
         }
 
+        public async Task<string> QueueAsync(ulong guildId)
+        {
+            var _player = _lavaSocketClient.GetPlayer(guildId);
+            if (_player is null || _player.Queue.Items.Count() is 0)
+                return "Nothing in queue.";
+
+            var tracks = $@"Current: {_player.CurrentTrack.Title}";
+
+            //TODO track names
+
+            var a=_player.Queue.Peek();
+            return tracks;
+        }
 
         private async Task ClientReadyAsync()
         {
