@@ -4,53 +4,51 @@ using Discord.WebSocket;
 using System.Linq;
 using System.Threading.Tasks;
 using Victoria;
-using Victoria.Entities;
-using System.Linq;
+using Victoria.Enums;
+using Victoria.EventArgs;
 
 namespace StreamMusicBot.Services
 {
     public class MusicService
     {
-        private readonly LavaRestClient _lavaRestClient;
-        private readonly LavaSocketClient _lavaSocketClient;
+        private readonly LavaNode _lavaRestClient;
         private readonly DiscordSocketClient _client;
         private readonly LogService _logService;
 
-        public MusicService(LavaRestClient lavaRestClient, DiscordSocketClient client,
-            LavaSocketClient lavaSocketClient, LogService logService)
+        public MusicService(LavaNode lavaRestClient, 
+                            DiscordSocketClient client, 
+                            LogService logService)
         {
             _client = client;
             _lavaRestClient = lavaRestClient;
-            _lavaSocketClient = lavaSocketClient;
             _logService = logService;
-        }
 
-        public Task InitializeAsync()
-        {
-            _client.Ready += ClientReadyAsync;
-            _lavaSocketClient.Log += LogAsync;
-            _lavaSocketClient.OnTrackFinished += TrackFinished;
-            return Task.CompletedTask;
+            //TODO: Add events..
+            _lavaRestClient.OnTrackEnded += TrackFinished;
         }
 
         public async Task LeaveAsync(SocketVoiceChannel voiceChannel)
-            => await _lavaSocketClient.DisconnectAsync(voiceChannel);
+            => await _lavaRestClient.LeaveAsync(voiceChannel);
+
+        public async Task ConnectAsync(SocketVoiceChannel voiceChannel, ITextChannel textChannel)
+            => await _lavaRestClient.JoinAsync(voiceChannel, textChannel);
 
         public async Task<string> PlayAsync(string query, SocketCommandContext context, SocketVoiceChannel voiceChannel)
         {
-            await _lavaSocketClient.ConnectAsync(voiceChannel, (ITextChannel)context.Channel);
+            await _lavaRestClient.ConnectAsync();
 
-            var _player = _lavaSocketClient.GetPlayer(context.Guild.Id);
+            var _player = _lavaRestClient.GetPlayer(context.Guild);
             var results = await _lavaRestClient.SearchYouTubeAsync(query);
-
-            if (results.LoadType == LoadType.NoMatches || results.LoadType == LoadType.LoadFailed)
+               
+            //TODO: no matches (LoadType notfound)
+            if (false) //results.LoadType == LoadType.NoMatches || results.LoadType == LoadType.LoadFailed
             {
                 return "No matches found.";
             }
 
             var track = results.Tracks.FirstOrDefault();
 
-            if (_player.IsPlaying)
+            if (_player.PlayerState.Equals(PlayerState.Paused))
             {
                 _player.Queue.Enqueue(track);
                 return $"{track.Title} has been added to the queue.";
@@ -62,29 +60,29 @@ namespace StreamMusicBot.Services
             }
         }
 
-        public async Task<string> StopAsync(ulong guildId)
+        public async Task<string> StopAsync(IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
+            var _player = _lavaRestClient.GetPlayer(guild);
             if (_player is null)
                 return "Error with Player";
             await _player.StopAsync();
             return "Music Playback Stopped.";
         }
 
-        public async Task<string> SkipAsync(ulong guildId)
+        public async Task<string> SkipAsync(IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
-            if (_player is null || _player.Queue.Items.Count() is 0)
+            var _player = _lavaRestClient.GetPlayer(guild);
+            if (_player is null || _player.Queue.Count() is 0)
                 return "Nothing in queue.";
 
-            var oldTrack = _player.CurrentTrack;
+            var oldTrack = _player.Track;
             await _player.SkipAsync();
-            return $"Skiped: {oldTrack.Title} \nNow Playing: {_player.CurrentTrack.Title}";
+            return $"Skiped: {oldTrack.Title} \nNow Playing: {_player.Track.Title}";
         }
 
-        public async Task<string> SetVolumeAsync(int vol, ulong guildId)
+        public async Task<string> SetVolumeAsync(int vol, IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
+            var _player = _lavaRestClient.GetPlayer(guild);
             if (_player is null)
                 return "Player isn't playing.";
 
@@ -93,17 +91,18 @@ namespace StreamMusicBot.Services
                 return "Please use a number between 2 - 100";
             }
 
-            await _player.SetVolumeAsync(vol);
+            //TODO: setvolume (volume is readonly)
+            //_player.Volume = vol;
             return $"Volume set to: {vol}";
         }
 
-        public async Task<string> PauseOrResumeAsync(ulong guildId)
+        public async Task<string> PauseOrResumeAsync(IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
+            var _player = _lavaRestClient.GetPlayer(guild);
             if (_player is null)
                 return "Player isn't playing.";
 
-            if (!_player.IsPaused)
+            if (_player.PlayerState.Equals(PlayerState.Paused))
             {
                 await _player.PauseAsync();
                 return "Player is Paused.";
@@ -115,13 +114,13 @@ namespace StreamMusicBot.Services
             }
         }
 
-        public async Task<string> ResumeAsync(ulong guildId)
+        public async Task<string> ResumeAsync(IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
+            var _player = _lavaRestClient.GetPlayer(guild);
             if (_player is null)
                 return "Player isn't playing.";
 
-            if (_player.IsPaused)
+            if (_player.PlayerState.Equals(PlayerState.Paused))
             {
                 await _player.ResumeAsync();
                 return "Playback resumed.";
@@ -130,37 +129,26 @@ namespace StreamMusicBot.Services
             return "Player is not paused.";
         }
 
-        public async Task<string> QueueAsync(ulong guildId)
+        public async Task<string> QueueAsync(IGuild guild)
         {
-            var _player = _lavaSocketClient.GetPlayer(guildId);
-            if (_player is null || _player.Queue.Items.Count() is 0)
+            var _player = _lavaRestClient.GetPlayer(guild);
+            if (_player is null || _player.Queue.Count() is 0)
                 return "Nothing in queue.";
 
-            var tracks = $@"Current: {_player.CurrentTrack.Title}";
+            var tracks = $@"Current: {_player.Track.Title}";
+            foreach (var track in _player.Queue) tracks += track.Title;
 
-            //TODO track names
-
-            var a=_player.Queue.Peek();
             return tracks;
         }
 
-        private async Task ClientReadyAsync()
+        private async Task TrackFinished(TrackEndedEventArgs args)
         {
-            await _lavaSocketClient.StartAsync(_client);
-        }
-
-        private async Task TrackFinished(LavaPlayer player, LavaTrack track, TrackEndReason reason)
-        {
-            if (!reason.ShouldPlayNext())
-                return;
-
-            if (!player.Queue.TryDequeue(out var item) || !(item is LavaTrack nextTrack))
+            //TODO: check args.Reason value
+            if (!args.Reason.Equals(TrackEndReason.Finished))
             {
-                await player.TextChannel.SendMessageAsync("There are no more tracks in the queue.");
                 return;
             }
-
-            await player.PlayAsync(nextTrack);
+            //await player.PlayAsync(nextTrack);
         }
 
         private async Task LogAsync(LogMessage logMessage)

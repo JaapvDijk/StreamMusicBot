@@ -29,6 +29,22 @@ namespace StreamMusicBot.Modules
             }
         }
 
+        [Command("Join")]
+        public async Task Join()
+        {
+            var user = Context.User as SocketGuildUser;
+            if (user.VoiceChannel is null)
+            {
+                await ReplyAsync("You need to connect to a voice channel.");
+                return;
+            }
+            else
+            {
+                await _musicService.ConnectAsync(user.VoiceChannel, Context.Channel as ITextChannel);
+                await ReplyAsync($"now connected to {user.VoiceChannel.Name}");
+            }
+        }
+
         [Command("Play")]
         public async Task Play([Remainder] string query)
         {
@@ -46,26 +62,26 @@ namespace StreamMusicBot.Modules
 
         [Command("Stop")]
         public async Task Stop()
-            => await ReplyAsync(await _musicService.StopAsync(Context.Guild.Id));
+            => await ReplyAsync(await _musicService.StopAsync(Context.Guild));
 
         [Command("Skip")]
         public async Task Skip()
-            => await ReplyAsync(await _musicService.SkipAsync(Context.Guild.Id));
+            => await ReplyAsync(await _musicService.SkipAsync(Context.Guild));
 
         [Command("Volume")]
         public async Task Volume(int vol)
-            => await ReplyAsync(await _musicService.SetVolumeAsync(vol, Context.Guild.Id));
+            => await ReplyAsync(await _musicService.SetVolumeAsync(vol, Context.Guild));
 
         [Command("Pause")]
         public async Task Pause()
-            => await ReplyAsync(await _musicService.PauseOrResumeAsync(Context.Guild.Id));
+            => await ReplyAsync(await _musicService.PauseOrResumeAsync(Context.Guild));
 
         [Command("Resume")]
         public async Task Resume()
-            => await ReplyAsync(await _musicService.ResumeAsync(Context.Guild.Id));
+            => await ReplyAsync(await _musicService.ResumeAsync(Context.Guild));
 
         [Command("Queue")]
         public async Task Queue()
-            => await ReplyAsync(await _musicService.QueueAsync(Context.Guild.Id));
+            => await ReplyAsync(await _musicService.QueueAsync(Context.Guild));
     }
 }

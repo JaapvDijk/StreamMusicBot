@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace StreamMusicBot
 {

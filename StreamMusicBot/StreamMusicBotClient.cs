@@ -47,7 +47,6 @@ namespace StreamMusicBot
             var cmdHandler = new CommandHandler(_client, _cmdService, _services);
             await cmdHandler.InitializeAsync();
 
-            await _services.GetRequiredService<MusicService>().InitializeAsync();
             await Task.Delay(-1);
         }
 
@@ -57,13 +56,26 @@ namespace StreamMusicBot
         }
 
         private IServiceProvider SetupServices()
-            => new ServiceCollection()
-            .AddSingleton(_client)
-            .AddSingleton(_cmdService)
-            .AddSingleton(_logService)
-            .AddSingleton<LavaRestClient>()
-            .AddSingleton<LavaSocketClient>()
-            .AddSingleton<MusicService>()
-            .BuildServiceProvider();
+        {   
+            //TODO: Use AddLavaNode (why new extension method created?)
+            //var services = new ServiceCollection()
+            //    // Other services DiscordSocketClient, CommandService, etc
+            //    .AddLavaNode(x => {
+            //        x.SelfDeaf = false;
+            //    });
+
+            //var provider = services.BuildServiceProvider();
+
+            return new ServiceCollection()
+              .AddSingleton(_client)
+              .AddSingleton(_cmdService)
+              .AddSingleton(_logService)
+              .AddSingleton<LavaNode>()
+              .AddSingleton<LavaConfig>()
+              .AddSingleton<MusicService>()
+              .BuildServiceProvider();
+        }
+
+
     }
 }
