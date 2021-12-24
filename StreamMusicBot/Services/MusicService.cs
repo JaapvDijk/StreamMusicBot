@@ -54,7 +54,7 @@ namespace StreamMusicBot.Services
             else
             {
                 await _player.PlayAsync(track);
-                return $"Now Playing: {track.Title}";
+                return $"{await NowPlayingAsync(context.Guild)}";
             }
         }
 
@@ -158,11 +158,13 @@ namespace StreamMusicBot.Services
 
             var _isPlaying = _player.PlayerState.Equals(PlayerState.Playing);
 
-            return (_isPlaying) ? $"**[Current]** " +
-                $"[**{_track.Position.ToHumanReadableString()} - " +
+            var _nowPlaying =
+                $"**[Current]** " +
+                $"[**{_track.Position.ToHumanReadableString()} | " +
                 $"{_track.Duration.ToHumanReadableString()}**] " +
-                $"{_track.Title} \n" : 
-                "I'm not playing any music";
+                $"{_track.Title}";
+
+            return (_isPlaying) ? $"{_nowPlaying} \n" : "I'm not playing any music";
         }
 
         public async Task<string> ForwardAsync(IGuild guild, int seconds)
@@ -175,8 +177,8 @@ namespace StreamMusicBot.Services
 
             await _player.SeekAsync(_newPosition);
 
-            return $"Forwarded {_secondsForward} seconds \n" +
-                await NowPlayingAsync(guild);
+            var nowPlaying = await NowPlayingAsync(guild);
+            return $"Forwarded {_secondsForward} seconds \n {nowPlaying}";
         }
 
         private async Task TrackFinished(TrackEndedEventArgs args)
