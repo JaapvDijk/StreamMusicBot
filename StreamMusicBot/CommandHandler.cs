@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
+using Victoria;
 
 namespace StreamMusicBot
 {
@@ -12,12 +13,25 @@ namespace StreamMusicBot
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmdService;
         private readonly IServiceProvider _services;
+        private readonly LavaNode _lavaNode;
 
         public CommandHandler(DiscordSocketClient client, CommandService cmdService, IServiceProvider services)
         {
             _client = client;
             _cmdService = cmdService;
             _services = services;
+
+            _lavaNode = (LavaNode)services.GetService(typeof(LavaNode));
+            _client.Ready += OnReadyAsync;
+        }
+
+        private async Task OnReadyAsync()
+        {
+            if (!_lavaNode.IsConnected)
+            {
+                _lavaNode.ConnectAsync();
+            }
+            // Other ready related stuff
         }
 
         public async Task InitializeAsync()
@@ -30,17 +44,21 @@ namespace StreamMusicBot
         private async Task HandleMessageAsync(SocketMessage socketMessage)
         {
             var argPos = 0;
+            var CommandPrefixChar = "!";
+
             if (socketMessage.Author.IsBot) return;
 
             var userMessage = socketMessage as SocketUserMessage;
             if (userMessage is null)
                 return;
 
-            if (!userMessage.HasMentionPrefix(_client.CurrentUser, ref argPos))
+            //TODO "!" prefix
+            if (!userMessage.HasMentionPrefix(_client.CurrentUser, ref argPos) &&
+                !userMessage.HasStringPrefix(CommandPrefixChar, ref argPos, StringComparison.OrdinalIgnoreCase))
                 return;
 
             var context = new SocketCommandContext(_client, userMessage);
-            var result = await _cmdService.ExecuteAsync(context, argPos, _services);
+            await _cmdService.ExecuteAsync(context, argPos, _services);
         }
 
         private Task LogAsync(LogMessage logMessage)

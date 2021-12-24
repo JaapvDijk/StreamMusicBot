@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Victoria;
@@ -12,14 +13,11 @@ namespace StreamMusicBot.Services
     public class MusicService
     {
         private readonly LavaNode _lavaRestClient;
-        private readonly DiscordSocketClient _client;
         private readonly LogService _logService;
 
         public MusicService(LavaNode lavaRestClient, 
-                            DiscordSocketClient client, 
                             LogService logService)
         {
-            _client = client;
             _lavaRestClient = lavaRestClient;
             _logService = logService;
 
@@ -30,16 +28,16 @@ namespace StreamMusicBot.Services
         public async Task LeaveAsync(SocketVoiceChannel voiceChannel)
             => await _lavaRestClient.LeaveAsync(voiceChannel);
 
-        public async Task ConnectAsync(SocketVoiceChannel voiceChannel, ITextChannel textChannel)
-            => await _lavaRestClient.JoinAsync(voiceChannel, textChannel);
+        public async Task ConnectAsync(SocketVoiceChannel voiceChannel)
+            => await _lavaRestClient.JoinAsync(voiceChannel);
 
         public async Task<string> PlayAsync(string query, SocketCommandContext context, SocketVoiceChannel voiceChannel)
         {
-            await _lavaRestClient.ConnectAsync();
+            await ConnectAsync(voiceChannel);
 
             var _player = _lavaRestClient.GetPlayer(context.Guild);
             var results = await _lavaRestClient.SearchYouTubeAsync(query);
-               
+
             //TODO: no matches (LoadType notfound)
             if (false) //results.LoadType == LoadType.NoMatches || results.LoadType == LoadType.LoadFailed
             {
@@ -48,10 +46,10 @@ namespace StreamMusicBot.Services
 
             var track = results.Tracks.FirstOrDefault();
 
-            if (_player.PlayerState.Equals(PlayerState.Paused))
+            if (_player.PlayerState.Equals(PlayerState.Playing))
             {
                 _player.Queue.Enqueue(track);
-                return $"{track.Title} has been added to the queue.";
+                return $"{track.Title} has been added to the queue. -Position **[{_player.Queue.Count()}]**";
             }
             else
             {
@@ -69,30 +67,36 @@ namespace StreamMusicBot.Services
             return "Music Playback Stopped.";
         }
 
-        public async Task<string> SkipAsync(IGuild guild)
+        public async Task<string> SkipAsync(IGuild guild, int amount = 1)
         {
             var _player = _lavaRestClient.GetPlayer(guild);
+            var nrTrackInQueue = _player.Queue.Count;
+
+            amount = (amount <= nrTrackInQueue) ? amount : nrTrackInQueue;
+
             if (_player is null || _player.Queue.Count() is 0)
                 return "Nothing in queue.";
 
-            var oldTrack = _player.Track;
-            await _player.SkipAsync();
-            return $"Skiped: {oldTrack.Title} \nNow Playing: {_player.Track.Title}";
+            for (var i = 0; i < amount; i++) await _player.SkipAsync();
+
+            return $"Skipped: **{amount}** track(s) \nNext: {_player.Track.Title}";
         }
 
-        public async Task<string> SetVolumeAsync(int vol, IGuild guild)
+        public async Task<string> SetVolumeAsync(ushort vol, IGuild guild)
         {
+            const int min = 2;
+            const int max = 100;
+
             var _player = _lavaRestClient.GetPlayer(guild);
             if (_player is null)
                 return "Player isn't playing.";
 
-            if (vol > 100 || vol <= 2)
+            if (vol < min || vol > max)
             {
-                return "Please use a number between 2 - 100";
+                return $"Please use a number between {min} - {max}";
             }
 
-            //TODO: setvolume (volume is readonly)
-            //_player.Volume = vol;
+            await _player.UpdateVolumeAsync(vol);
             return $"Volume set to: {vol}";
         }
 
@@ -135,10 +139,44 @@ namespace StreamMusicBot.Services
             if (_player is null || _player.Queue.Count() is 0)
                 return "Nothing in queue.";
 
-            var tracks = $@"Current: {_player.Track.Title}";
-            foreach (var track in _player.Queue) tracks += track.Title;
+            var _tracks = await NowPlayingAsync(guild);
 
-            return tracks;
+            var i = 1;
+            foreach (var track in _player.Queue)
+            {
+                _tracks += $"\n **[{i}.]** [**{track.Duration.ToHumanReadableString()}**] {track.Title}";
+                i++;
+            }
+
+            return _tracks;
+        }
+
+        public async Task<string> NowPlayingAsync(IGuild guild)
+        {
+            var _player = _lavaRestClient.GetPlayer(guild);
+            var _track = _player.Track;
+
+            var _isPlaying = _player.PlayerState.Equals(PlayerState.Playing);
+
+            return (_isPlaying) ? $"**[Current]** " +
+                $"[**{_track.Position.ToHumanReadableString()} - " +
+                $"{_track.Duration.ToHumanReadableString()}**] " +
+                $"{_track.Title} \n" : 
+                "I'm not playing any music";
+        }
+
+        public async Task<string> ForwardAsync(IGuild guild, int seconds)
+        {
+            var _player = _lavaRestClient.GetPlayer(guild);
+            var _remaining = _player.Track.Duration.Subtract(_player.Track.Position);
+
+            var _secondsForward = (seconds < _remaining.TotalSeconds) ? seconds : _remaining.TotalSeconds;
+            var _newPosition = _player.Track.Position.Add(new TimeSpan(0,0, (int)_secondsForward));
+
+            await _player.SeekAsync(_newPosition);
+
+            return $"Forwarded {_secondsForward} seconds \n" +
+                await NowPlayingAsync(guild);
         }
 
         private async Task TrackFinished(TrackEndedEventArgs args)
@@ -148,7 +186,12 @@ namespace StreamMusicBot.Services
             {
                 return;
             }
-            //await player.PlayAsync(nextTrack);
+            var _player = args.Player;
+
+            await _player.SkipAsync();
+
+            var _nextTrack = _player.Queue.Peek();
+            await _player.PlayAsync(_nextTrack);
         }
 
         private async Task LogAsync(LogMessage logMessage)

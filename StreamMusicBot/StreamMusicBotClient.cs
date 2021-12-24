@@ -39,7 +39,7 @@ namespace StreamMusicBot
 
         public async Task InitializeAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, "OTE4NTkwMTU5MzEyODE0MDgw.YbJdwA.AZAvNzqhJ3KOJwqqpmWdY1wDA2o");
+            await _client.LoginAsync(TokenType.Bot, ".");
             await _client.StartAsync();
             _client.Log += LogAsync;
             _services = SetupServices();
@@ -56,26 +56,14 @@ namespace StreamMusicBot
         }
 
         private IServiceProvider SetupServices()
-        {   
-            //TODO: Use AddLavaNode (why new extension method created?)
-            //var services = new ServiceCollection()
-            //    // Other services DiscordSocketClient, CommandService, etc
-            //    .AddLavaNode(x => {
-            //        x.SelfDeaf = false;
-            //    });
-
-            //var provider = services.BuildServiceProvider();
-
+        {
             return new ServiceCollection()
               .AddSingleton(_client)
               .AddSingleton(_cmdService)
               .AddSingleton(_logService)
-              .AddSingleton<LavaNode>()
-              .AddSingleton<LavaConfig>()
               .AddSingleton<MusicService>()
+              .AddLavaNode(x => { x.SelfDeaf = false; })
               .BuildServiceProvider();
         }
-
-
     }
 }

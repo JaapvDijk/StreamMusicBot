@@ -40,8 +40,8 @@ namespace StreamMusicBot.Modules
             }
             else
             {
-                await _musicService.ConnectAsync(user.VoiceChannel, Context.Channel as ITextChannel);
-                await ReplyAsync($"now connected to {user.VoiceChannel.Name}");
+                await _musicService.ConnectAsync(user.VoiceChannel);
+                await ReplyAsync($"Joined {user.VoiceChannel.Name} dankzij die {user.Username}");
             }
         }
 
@@ -65,11 +65,13 @@ namespace StreamMusicBot.Modules
             => await ReplyAsync(await _musicService.StopAsync(Context.Guild));
 
         [Command("Skip")]
-        public async Task Skip()
-            => await ReplyAsync(await _musicService.SkipAsync(Context.Guild));
+        public async Task Skip(int amount = 1)
+        { 
+            await ReplyAsync(await _musicService.SkipAsync(Context.Guild, amount));
+        }
 
         [Command("Volume")]
-        public async Task Volume(int vol)
+        public async Task Volume(ushort vol)
             => await ReplyAsync(await _musicService.SetVolumeAsync(vol, Context.Guild));
 
         [Command("Pause")]
@@ -83,5 +85,18 @@ namespace StreamMusicBot.Modules
         [Command("Queue")]
         public async Task Queue()
             => await ReplyAsync(await _musicService.QueueAsync(Context.Guild));
+
+        [Command("np")]
+        public async Task NowPlaying()
+            => await ReplyAsync(await _musicService.NowPlayingAsync(Context.Guild));
+
+        [Command("Forward")]
+        public async Task FastForward(int seconds)
+            => await ReplyAsync(await _musicService.ForwardAsync(Context.Guild, seconds));
+
+        //TODO: help command in musicservice
+        //[Command("Help")]
+        //public async Task Help()
+        //    => await ReplyAsync(await _musicService.HelpAsycn(Context.Guild));
     }
 }
