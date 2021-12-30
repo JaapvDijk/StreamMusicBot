@@ -94,9 +94,8 @@ namespace StreamMusicBot.Modules
         public async Task FastForward(int seconds)
             => await ReplyAsync(await _musicService.ForwardAsync(Context.Guild, seconds));
 
-        //TODO: help command in musicservice
-        //[Command("Help")]
-        //public async Task Help()
-        //    => await ReplyAsync(await _musicService.HelpAsycn(Context.Guild));
+        [Command("Help")]
+        public async Task Help(string command = "")
+            => await ReplyAsync(await _musicService.HelpAsyc(Context.Guild, command));
     }
 }

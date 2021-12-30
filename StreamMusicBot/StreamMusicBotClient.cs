@@ -47,6 +47,7 @@ namespace StreamMusicBot
             var cmdHandler = new CommandHandler(_client, _cmdService, _services);
             await cmdHandler.InitializeAsync();
 
+            //?
             await Task.Delay(-1);
         }
 

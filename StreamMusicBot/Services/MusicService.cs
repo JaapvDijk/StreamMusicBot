@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Victoria;
@@ -179,6 +180,45 @@ namespace StreamMusicBot.Services
 
             var nowPlaying = await NowPlayingAsync(guild);
             return $"Forwarded {_secondsForward} seconds \n {nowPlaying}";
+        }
+
+        public async Task<string> HelpAsyc(IGuild guild, string command)
+        {
+            switch (command.ToLower()) 
+            {
+                case "play": return "play a song \n" +
+                                    "Parameters: {url/title}";
+
+                case "leave": return "disconnect the bot from the current channel \n" +
+                                     "Parameters: none";
+
+                case "stop": return "stop playing music \n" +
+                                    "Parameters: none";
+
+                case "skip": return "start playing next track in the queue \n" +
+                                    "Parameters: {amount}";
+
+                case "volume": return "set the play volume of the bot (between 2-100) \n" +
+                                      "Parameters: {percentage}";
+
+                case "pause": return "pause the current track at the current position \n" +
+                                     "Parameters: none";
+
+                case "np": return "Show the track that is currently playing \n" +
+                                  "Parameters: none";
+
+                case "queue": return "Use this command to obtain track queue info and to interact with it \n" +
+                                     "Parameters: none yet";
+
+                case "forward": return "Forward the current track for a specified number of seconds \n" +
+                                       "Parameters: {seconds} \n" +
+                                       "Additional info: 'forward -20', track will go back 20 seconds";
+
+                default: return "Get more info: 'help {command}' \n" +
+                                "The following commands are available: \n" +
+                                "Play, Leave Stop, Skip, Volume, Pause, np, Forward, Queue";
+                  
+            }
         }
 
         private async Task TrackFinished(TrackEndedEventArgs args)
