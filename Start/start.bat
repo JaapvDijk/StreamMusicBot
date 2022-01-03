@@ -1,1 +1,1 @@
-java -jar Lavalink.jar
+java -jar Lavalink/Lavalink.jar
