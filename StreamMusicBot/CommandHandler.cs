@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
 using Victoria;
 
 namespace StreamMusicBot

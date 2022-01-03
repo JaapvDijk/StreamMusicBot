@@ -1,12 +1,12 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
-using Discord;
-using System.Threading.Tasks;
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using Victoria;
-using StreamMusicBot.Services;
 using StreamMusicBot.Entities;
+using StreamMusicBot.Services;
+using System;
+using System.Threading.Tasks;
+using Victoria;
 
 namespace StreamMusicBot
 {
@@ -21,13 +21,15 @@ namespace StreamMusicBot
 
         public StreamMusicBotClient()
         {
-            _client = new DiscordSocketClient(new DiscordSocketConfig {
+            _client = new DiscordSocketClient(new DiscordSocketConfig
+            {
                 AlwaysDownloadUsers = true,
                 MessageCacheSize = 50,
                 LogLevel = LogSeverity.Debug
             });
 
-            _cmdService = new CommandService(new CommandServiceConfig {
+            _cmdService = new CommandService(new CommandServiceConfig
+            {
                 LogLevel = LogSeverity.Verbose,
                 CaseSensitiveCommands = false
             });
@@ -39,7 +41,7 @@ namespace StreamMusicBot
 
         public async Task InitializeAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, ".");
+            await _client.LoginAsync(TokenType.Bot, "OTE4NTkwMTU5MzEyODE0MDgw.YbJdwA.0wiwKrAj1ykWc1tmaD5j1-o7DMY");
             await _client.StartAsync();
             _client.Log += LogAsync;
             _services = SetupServices();

@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using StreamMusicBot.Services;
 using System.Threading.Tasks;
@@ -56,7 +55,7 @@ namespace StreamMusicBot.Modules
             }
             else
             {
-                await ReplyAsync(await _musicService.PlayAsync(query, Context, user.VoiceChannel));;
+                await ReplyAsync(await _musicService.PlayAsync(query, Context, user.VoiceChannel)); ;
             }
         }
 
@@ -66,7 +65,7 @@ namespace StreamMusicBot.Modules
 
         [Command("Skip")]
         public async Task Skip(int amount = 1)
-        { 
+        {
             await ReplyAsync(await _musicService.SkipAsync(Context.Guild, amount));
         }
 
