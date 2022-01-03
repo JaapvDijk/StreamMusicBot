@@ -1,0 +1,1 @@
+sudo java -jar Lavalink/Lavalink.jar
