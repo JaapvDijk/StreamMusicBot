@@ -191,16 +191,27 @@ namespace StreamMusicBot.Services
         {
             //Resolve track to usefull track (query or any link to youtue link)
             //Replace query var below with resolved track var
+            if (operation.Equals("", StringComparison.OrdinalIgnoreCase))
+            {
+                return _favoritesService.GetFavorites();
+            }
 
-            //if (operation.ToLower().Equals("add", StringComparison.OrdinalIgnoreCase))
-            //    _favoritesService.AddFavorite(query);
+            else if (operation.Equals("add", StringComparison.OrdinalIgnoreCase))
+            {
+                return _favoritesService.AddFavorite(query);
+            }
 
-            //if (operation.ToLower().Equals("remove", StringComparison.OrdinalIgnoreCase))
-            //    _favoritesService.RemoveFavorite(query);
+            else if (operation.Equals("remove", StringComparison.OrdinalIgnoreCase))
+            {
+                return _favoritesService.RemoveFavorite(query);
+            }
 
-            //_favoritesService.ClearFavorites();
+            else if (operation.Equals("clear", StringComparison.OrdinalIgnoreCase))
+            {
+                return _favoritesService.ClearFavorites();
+            }
 
-            return $"operation: {operation} query: {query}";
+            return "I dont quite understand that mi lord";
         }
 
         public async Task<string> HelpAsyc(IGuild guild, string command)
