@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,14 +15,17 @@ namespace StreamMusicBot.Services
     {
         private readonly LavaNode _lavaRestClient;
         private readonly LogService _logService;
+        private IConfiguration _config;
 
         public MusicService(LavaNode lavaRestClient,
-                            LogService logService)
+                            LogService logService,
+                            IConfiguration config)
         {
+            _config = config;
             _lavaRestClient = lavaRestClient;
             _logService = logService;
 
-            //TODO: Add events..
+            _lavaRestClient.OnLog += LogAsync;
             _lavaRestClient.OnTrackEnded += TrackFinished;
         }
 
@@ -38,8 +42,7 @@ namespace StreamMusicBot.Services
             var _player = _lavaRestClient.GetPlayer(context.Guild);
             var results = await _lavaRestClient.SearchYouTubeAsync(query);
 
-            //TODO: no matches (LoadType notfound)
-            if (false) //results.LoadType == LoadType.NoMatches || results.LoadType == LoadType.LoadFailed
+            if (results.Tracks.Count == 0)
             {
                 return "No matches found.";
             }

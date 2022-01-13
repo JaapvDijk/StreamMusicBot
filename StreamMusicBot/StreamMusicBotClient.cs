@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StreamMusicBot.Entities;
 using StreamMusicBot.Services;
 using System;
 using System.Threading.Tasks;
@@ -16,15 +16,17 @@ namespace StreamMusicBot
         private readonly CommandService _cmdService;
         private IServiceProvider _services;
         private readonly LogService _logService;
-        private readonly ConfigService _configService;
-        private readonly Config _config;
+        private IConfiguration _config;
 
         public StreamMusicBotClient()
         {
+            _config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<StreamMusicBotClient>().Build();
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 AlwaysDownloadUsers = true,
-                MessageCacheSize = 50,
+                MessageCacheSize = 25,
                 LogLevel = LogSeverity.Debug
             });
 
@@ -35,13 +37,11 @@ namespace StreamMusicBot
             });
 
             _logService = new LogService();
-            _configService = new ConfigService();
-            _config = _configService.GetConfig();
         }
 
         public async Task InitializeAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, "OTE4NTkwMTU5MzEyODE0MDgw.YbJdwA.0wiwKrAj1ykWc1tmaD5j1-o7DMY");
+            await _client.LoginAsync(TokenType.Bot, _config["token"]);
             await _client.StartAsync();
             _client.Log += LogAsync;
             _services = SetupServices();
@@ -65,6 +65,7 @@ namespace StreamMusicBot
               .AddSingleton(_cmdService)
               .AddSingleton(_logService)
               .AddSingleton<MusicService>()
+              .AddSingleton<IConfiguration>(_config)
               .AddLavaNode(x => { x.SelfDeaf = false; })
               .BuildServiceProvider();
         }
