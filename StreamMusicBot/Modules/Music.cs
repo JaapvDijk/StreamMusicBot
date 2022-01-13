@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using StreamMusicBot.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace StreamMusicBot.Modules
 {
@@ -96,5 +97,9 @@ namespace StreamMusicBot.Modules
         [Command("Help")]
         public async Task Help(string command = "")
             => await ReplyAsync(await _musicService.HelpAsyc(Context.Guild, command));
+
+        [Command("Favorites")]
+        public async Task Favorites(string operation = "", [Remainder] string query = "")
+            => await ReplyAsync(await _musicService.FavoritesAsync(Context.Guild, operation, query));
     }
 }

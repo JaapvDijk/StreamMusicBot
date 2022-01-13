@@ -16,11 +16,14 @@ namespace StreamMusicBot.Services
         private readonly LavaNode _lavaRestClient;
         private readonly LogService _logService;
         private IConfiguration _config;
+        private FavoritesService _favoritesService;
 
         public MusicService(LavaNode lavaRestClient,
                             LogService logService,
-                            IConfiguration config)
+                            IConfiguration config,
+                            FavoritesService favoritesService)
         {
+            _favoritesService = favoritesService;
             _config = config;
             _lavaRestClient = lavaRestClient;
             _logService = logService;
@@ -184,6 +187,22 @@ namespace StreamMusicBot.Services
             return $"Forwarded {_secondsForward} seconds \n {nowPlaying}";
         }
 
+        public async Task<string> FavoritesAsync(IGuild guild, string operation, string query)
+        {
+            //Resolve track to usefull track (query or any link to youtue link)
+            //Replace query var below with resolved track var
+
+            //if (operation.ToLower().Equals("add", StringComparison.OrdinalIgnoreCase))
+            //    _favoritesService.AddFavorite(query);
+
+            //if (operation.ToLower().Equals("remove", StringComparison.OrdinalIgnoreCase))
+            //    _favoritesService.RemoveFavorite(query);
+
+            //_favoritesService.ClearFavorites();
+
+            return $"operation: {operation} query: {query}";
+        }
+
         public async Task<string> HelpAsyc(IGuild guild, string command)
         {
             switch (command.ToLower())
@@ -224,6 +243,11 @@ namespace StreamMusicBot.Services
                     return "Forward the current track for a specified number of seconds \n" +
                            "Parameters: {seconds} \n" +
                            "Additional info: 'forward -20', track will go back 20 seconds";
+
+                case "favorites":
+                    return "Manage your favorite tracks \n" +
+                           "Parameters: {operation} {track} \n" +
+                           "Samples info: 'favorites \n favorites add ikwilkaas \n favorites remove 1";
 
                 default:
                     return "Get more info: 'help {command}' \n" +

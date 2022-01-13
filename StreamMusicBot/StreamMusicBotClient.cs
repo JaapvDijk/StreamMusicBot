@@ -66,6 +66,7 @@ namespace StreamMusicBot
               .AddSingleton(_logService)
               .AddSingleton<MusicService>()
               .AddSingleton<IConfiguration>(_config)
+              .AddSingleton<FavoritesService>()
               .AddLavaNode(x => { x.SelfDeaf = false; })
               .BuildServiceProvider();
         }

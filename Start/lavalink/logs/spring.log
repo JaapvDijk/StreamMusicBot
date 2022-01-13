@@ -59,3 +59,44 @@
 2022-01-13 21:37:36.453  INFO 3132 --- [XNIO-1 I/O-3] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
 2022-01-13 22:23:59.938  INFO 3132 --- [XNIO-1 task-4] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:63424
 2022-01-13 22:33:08.347  INFO 3132 --- [XNIO-1 task-4] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 22:58:15.150  INFO 3132 --- [XNIO-1 task-5] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:60652
+2022-01-13 22:58:15.153  INFO 3132 --- [XNIO-1 task-5] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 22:59:27.460  INFO 3132 --- [XNIO-1 task-6] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:hoi"
+2022-01-13 22:59:28.499  INFO 3132 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: hoi
+2022-01-13 22:59:28.611  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"track":"QAAAbgIAEEhvaSBpayBiZW4gYmliaSEABEJpYmkAAAAAAABdwAALdlhWcXRiOE4tT1kAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj12WFZxdGI4Ti1PWQAHeW91dHViZQAAAAAAAAAA","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-01-13 22:59:28.619  WARN 3132 --- [XNIO-1 I/O-4] lavalink.server.io.WebSocketHandlers     : The volume property in the play operation has been deprecatedand will be removed in v4. Please configure a filter instead. Note that the new filter takes a float value with 1.0 being 100%
+2022-01-13 22:59:28.895  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"4c3f438fc361bf59a50b835626c5f8ca","event":{"token":"729c818d1a759956","endpoint":"rotterdam1147.discord.media:443"},"op":"voiceUpdate"}
+2022-01-13 22:59:33.510  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"stop"}
+2022-01-13 22:59:33.512  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"destroy"}
+2022-01-13 23:01:34.264  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:60652 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:01:34.265  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:25:25.403  INFO 3132 --- [XNIO-1 task-8] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50060
+2022-01-13 23:25:25.406  INFO 3132 --- [XNIO-1 task-8] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:27:57.628  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50060 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:27:57.629  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:28:01.857  INFO 3132 --- [XNIO-1 task-9] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50144
+2022-01-13 23:28:01.860  INFO 3132 --- [XNIO-1 task-9] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:28:52.833  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50144 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:28:52.833  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:28:57.412  INFO 3132 --- [XNIO-1 task-10] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50176
+2022-01-13 23:28:57.416  INFO 3132 --- [XNIO-1 task-10] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:30:46.078  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50176 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:30:46.079  INFO 3132 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:30:50.541  INFO 3132 --- [XNIO-1 task-11] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50252
+2022-01-13 23:30:50.544  INFO 3132 --- [XNIO-1 task-11] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:30:59.440  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50252 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:30:59.441  INFO 3132 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:31:03.478  INFO 3132 --- [XNIO-1 task-12] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50263
+2022-01-13 23:31:03.482  INFO 3132 --- [XNIO-1 task-12] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:33:58.046  INFO 3132 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50263 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:33:58.047  INFO 3132 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:34:26.285  INFO 3132 --- [XNIO-1 task-13] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50376
+2022-01-13 23:34:26.289  INFO 3132 --- [XNIO-1 task-13] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:35:25.459  INFO 3132 --- [XNIO-1 I/O-12] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50376 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:35:25.460  INFO 3132 --- [XNIO-1 I/O-12] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:40:17.292  INFO 3132 --- [XNIO-1 task-14] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:60642
+2022-01-13 23:40:17.294  INFO 3132 --- [XNIO-1 task-14] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-01-13 23:41:01.796  INFO 3132 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:60642 -- CloseStatus[code=1006, reason=]
+2022-01-13 23:41:01.797  INFO 3132 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-01-13 23:57:22.786  INFO 3132 --- [XNIO-1 task-15] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:61258
+2022-01-13 23:57:22.789  INFO 3132 --- [XNIO-1 task-15] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
