@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Victoria;
 using Victoria.Enums;
 using Victoria.EventArgs;
+using StreamMusicBot.Extensions;
 
 namespace StreamMusicBot.Services
 {
@@ -17,16 +18,19 @@ namespace StreamMusicBot.Services
         private readonly LogService _logService;
         private IConfiguration _config;
         private FavoritesService _favoritesService;
+        private TrackFactory _trackFactory;
 
         public MusicService(LavaNode lavaRestClient,
                             LogService logService,
                             IConfiguration config,
-                            FavoritesService favoritesService)
+                            FavoritesService favoritesService,
+                            TrackFactory trackFactory)
         {
-            _favoritesService = favoritesService;
             _config = config;
             _lavaRestClient = lavaRestClient;
             _logService = logService;
+            _favoritesService = favoritesService;
+            _trackFactory = trackFactory;
 
             _lavaRestClient.OnLog += LogAsync;
             _lavaRestClient.OnTrackEnded += TrackFinished;
@@ -43,14 +47,8 @@ namespace StreamMusicBot.Services
             await ConnectAsync(voiceChannel);
 
             var _player = _lavaRestClient.GetPlayer(context.Guild);
-            var results = await _lavaRestClient.SearchYouTubeAsync(query);
 
-            if (results.Tracks.Count == 0)
-            {
-                return "No matches found.";
-            }
-
-            var track = results.Tracks.FirstOrDefault();
+            var track = await _trackFactory.GetTrack(query);
 
             if (_player.PlayerState.Equals(PlayerState.Playing))
             {
@@ -187,10 +185,10 @@ namespace StreamMusicBot.Services
             return $"Forwarded {_secondsForward} seconds \n {nowPlaying}";
         }
 
-        public async Task<string> FavoritesAsync(IGuild guild, string operation, string query)
+        public async Task<string> FavoritesAsync(string operation, string query)
         {
-            //Resolve track to usefull track (query or any link to youtue link)
-            //Replace query var below with resolved track var
+            var track = await _trackFactory.GetTrack(query);
+
             if (operation.Equals("", StringComparison.OrdinalIgnoreCase))
             {
                 return _favoritesService.GetFavorites();
@@ -198,12 +196,12 @@ namespace StreamMusicBot.Services
 
             else if (operation.Equals("add", StringComparison.OrdinalIgnoreCase))
             {
-                return _favoritesService.AddFavorite(query);
+                return _favoritesService.AddFavorite(track);
             }
 
             else if (operation.Equals("remove", StringComparison.OrdinalIgnoreCase))
             {
-                return _favoritesService.RemoveFavorite(query);
+                return _favoritesService.RemoveFavorite(track);
             }
 
             else if (operation.Equals("clear", StringComparison.OrdinalIgnoreCase))

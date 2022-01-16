@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Victoria;
 
 namespace StreamMusicBot.Services
 {
     public class FavoritesService
     {
-        public List<string> Favorites { get; set; } = new List<string>();
+        public List<LavaTrack> Favorites { get; set; } = new();
 
         public string GetFavorites()
         {
-            var display = Favorites.Select((x, i) => $"**{i+1}**: {x} \n");
+            var display = Favorites.Select((x, i) => $"**{i+1}**: {x.Title} \n");
 
-            var result = "Empty";
+            var result = "Favorites is empty";
             if (display.Count() > 0) result = string.Join("", display);
 
             return result;
         }
-        public string AddFavorite(string query) 
+        public string AddFavorite(LavaTrack track) 
         {
-            Favorites.Add(query);
+            Favorites.Add(track);
 
-            return $"Added {query} to favorites";
+            return $"Added {track.Title} to favorites";
         }
 
-        public string RemoveFavorite(string query)
+        public string RemoveFavorite(LavaTrack track)
         {
-            if (Favorites.Contains(query))
+            if (Favorites.Contains(track))
             {
-                Favorites.Remove(query);
-                return $"Removed: {query} from favorites";
+                Favorites.Remove(track);
+                return $"Removed: {track} from favorites";
             }
             else
             {
-                return $"{query} does not exist";
+                return $"{track.Title} not found in favorites";
             }
         }
         public string ClearFavorites()
