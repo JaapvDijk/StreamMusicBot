@@ -1,17 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Victoria;
-using SpotifyAPI.Web;
-using System.Linq;
-using System;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
-using Victoria.Enums;
-using Victoria.EventArgs;
 using StreamMusicBot.Extensions;
 
 namespace StreamMusicBot.Services
