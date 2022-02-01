@@ -48,18 +48,19 @@ namespace StreamMusicBot.Services
 
             var _player = _lavaRestClient.GetPlayer(context.Guild);
 
-            var track = await _trackFactory.GetTrack(query);
+            var tracks = await _trackFactory.GetTrack(query);
 
-            if (_player.PlayerState.Equals(PlayerState.Playing))
+            foreach (var track in tracks)
             {
-                _player.Queue.Enqueue(track);
-                return $"{track.Title} has been added to the queue. -Position **[{_player.Queue.Count()}]**";
+                var isPlaying = _player.PlayerState.Equals(PlayerState.Playing);
+                if (isPlaying)
+                    _player.Queue.Enqueue(track);
+                else
+                    await _player.PlayAsync(track);
             }
-            else
-            {
-                await _player.PlayAsync(track);
-                return $"{await NowPlayingAsync(context.Guild)}";
-            }
+
+            return $"Added {tracks.Count()} song(s) \n " +
+                $"{await NowPlayingAsync(context.Guild)}";
         }
 
         public async Task<string> StopAsync(IGuild guild)
@@ -196,12 +197,12 @@ namespace StreamMusicBot.Services
 
             else if (operation.Equals("add", StringComparison.OrdinalIgnoreCase))
             {
-                return _favoritesService.AddFavorite(track);
+                return _favoritesService.AddFavorite(track.Single());
             }
 
             else if (operation.Equals("remove", StringComparison.OrdinalIgnoreCase))
             {
-                return _favoritesService.RemoveFavorite(track);
+                return _favoritesService.RemoveFavorite(track.Single());
             }
 
             else if (operation.Equals("clear", StringComparison.OrdinalIgnoreCase))

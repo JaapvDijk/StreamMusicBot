@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Victoria;
 using StreamMusicBot.Extensions;
+using System.Collections.Generic;
 
 namespace StreamMusicBot.Services
 {
@@ -15,25 +16,30 @@ namespace StreamMusicBot.Services
             _logService = logService;
         }
 
-        public async Task<LavaTrack> GetTrack(string query)
+        public async Task<IEnumerable<LavaTrack>> GetTrack(string query)
         {
+            var  tracks = new List<LavaTrack>();
             switch (query)
             {
                 case var a when a.Contains("open.spotify") && a.Contains("track"):
-                    var reponse = await _lavaNode.SearchSpotifyAsync(query);
-                    return reponse.GetFirstLavaTrack();
+                    var trackReponse = await _lavaNode.SearchSpotifyAsync(query);
+                    tracks.Add(trackReponse.GetFirstLavaTrack());
+                    return tracks;
 
                 case var a when a.Contains("open.spotify") && a.Contains("playlist"):
-                    var reponse2 = await _lavaNode.SearchSpotifyPlaylistAsync(query);
-                    return new LavaTrack();
+                    var playListReponse = await _lavaNode.SearchSpotifyPlaylistAsync(query);
+                    tracks.AddRange(playListReponse.GetFirstLavaTracks());
+                    return tracks;
 
                 case var a when a.Contains("soundcloud."):
-                    reponse = await _lavaNode.SearchSoundCloudAsync(query);
-                    return reponse.GetFirstLavaTrack();
+                    trackReponse = await _lavaNode.SearchSoundCloudAsync(query);
+                    tracks.Add(trackReponse.GetFirstLavaTrack());
+                    return tracks;
 
                 default:
-                    reponse = await _lavaNode.SearchYouTubeAsync(query);
-                    return reponse.GetFirstLavaTrack();
+                    trackReponse = await _lavaNode.SearchYouTubeAsync(query);
+                    tracks.Add(trackReponse.GetFirstLavaTrack());
+                    return tracks;
             }
         }
 

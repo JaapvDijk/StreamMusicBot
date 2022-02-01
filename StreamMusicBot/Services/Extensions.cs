@@ -47,9 +47,13 @@ namespace StreamMusicBot.Extensions
         {
             var playlistId = Helper.getSpotifyID(query);
 
-            //Needs to be disposed? 
+            //Needs to be disposed?
             //TODO: get token
-            var spotify = new SpotifyClient("");
+            var config = SpotifyClientConfig
+              .CreateDefault()
+              .WithAuthenticator(new ClientCredentialsAuthenticator("", "")); //client, secret
+
+            var spotify = new SpotifyClient(config);
 
             //Note: is max 100 tracks
             var spotifyResult = await spotify.Playlists.Get(playlistId);
@@ -59,13 +63,19 @@ namespace StreamMusicBot.Extensions
                 var track = (FullTrack)playable.Track;
                 return lavaNode.SearchYouTubeAsync(track.Name);
             });
-                
+            
             return (await Task.WhenAll(tasks)).ToList();
         }
 
         public static LavaTrack GetFirstLavaTrack(this Victoria.Responses.Search.SearchResponse searchResponse)
         {
             return searchResponse.Tracks.FirstOrDefault();
+        }
+
+        public static IEnumerable<LavaTrack> GetFirstLavaTracks(this IEnumerable<Victoria.Responses.Search.SearchResponse> searchResponseList)
+        {
+            var lavatrackList = searchResponseList.Select(x => x.Tracks.FirstOrDefault());
+            return lavatrackList;
         }
     }
 }
