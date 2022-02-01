@@ -4,9 +4,9 @@ using StreamMusicBot.Services;
 
 namespace StreamMusicBot
 {
-    class Program
+    public class Program
     {
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var botClient = new StreamMusicBotClient();
             await botClient.InitializeAsync();

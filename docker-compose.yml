@@ -1,0 +1,29 @@
+version: '3'
+services:
+  lavalink-server:
+    image: fredboat/lavalink:master-v3.4
+    volumes:
+      - type: volume
+        source: lavalink
+        target: /opt/Lavalink
+    ports:
+      - "2333:2333"
+    # networks:
+    #   - botnet
+    # network_mode: bridge
+
+
+  streammusicbot:
+    build: .
+    depends_on:
+      - lavalink-server
+    # networks:
+    #   - botnet
+    # network_mode: bridge
+
+volumes:
+  lavalink:
+
+networks:
+  botnet:
+    external: false
