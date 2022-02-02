@@ -21,7 +21,9 @@ namespace StreamMusicBot
         public StreamMusicBotClient()
         {
             _config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json").Build();
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
             //.AddUserSecrets<StreamMusicBotClient>(optional: true)
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -67,7 +69,7 @@ namespace StreamMusicBot
               .AddSingleton<MusicService>()
               .AddSingleton<IConfiguration>(_config)
               .AddSingleton<FavoritesService>()
-              .AddLavaNode(x => { x.SelfDeaf = false; x.Port = 2333; x.Hostname = "localhost"; })
+              .AddLavaNode(x => { x.SelfDeaf = false; x.Port = 2333; x.Hostname = _config["lavahostname"]; x.Authorization = ""; })
               .AddSingleton<TrackFactory>()
               .BuildServiceProvider();
         }

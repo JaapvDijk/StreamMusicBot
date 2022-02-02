@@ -48,7 +48,7 @@ namespace StreamMusicBot.Extensions
             var playlistId = Helper.getSpotifyID(query);
 
             //Needs to be disposed?
-            //TODO: get token
+            //TODO: to seperate class
             var config = SpotifyClientConfig
               .CreateDefault()
               .WithAuthenticator(new ClientCredentialsAuthenticator("", "")); //client, secret

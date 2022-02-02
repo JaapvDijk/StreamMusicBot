@@ -10,20 +10,19 @@ services:
       - "2333:2333"
     # networks:
     #   - botnet
-    # network_mode: bridge
-
 
   streammusicbot:
     build: .
     depends_on:
       - lavalink-server
+    environment:
+     - lavahostname=lavalink-server
     # networks:
     #   - botnet
-    # network_mode: bridge
 
 volumes:
   lavalink:
 
-networks:
-  botnet:
-    external: false
+# networks:
+#   botnet:
+#     external: false
