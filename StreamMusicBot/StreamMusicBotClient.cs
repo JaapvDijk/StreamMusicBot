@@ -69,8 +69,9 @@ namespace StreamMusicBot
               .AddSingleton<MusicService>()
               .AddSingleton<IConfiguration>(_config)
               .AddSingleton<FavoritesService>()
-              .AddLavaNode(x => { x.SelfDeaf = false; x.Port = 2333; x.Hostname = _config["lavahostname"]; x.Authorization = ""; })
+              .AddLavaNode(x => { x.SelfDeaf = false; x.Port = 2333; x.Hostname = _config["lavahostname"]; })
               .AddSingleton<TrackFactory>()
+              .AddSingleton<SpotifyService>()
               .BuildServiceProvider();
         }
     }

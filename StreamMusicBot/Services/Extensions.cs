@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Victoria;
+using StreamMusicBot.Services;
 
 namespace StreamMusicBot.Extensions
 {
@@ -31,36 +32,28 @@ namespace StreamMusicBot.Extensions
             return $@"{t:%d} day(s)";
         }
 
-        public static async Task<Victoria.Responses.Search.SearchResponse> SearchSpotifyAsync(this LavaNode lavaNode, string query)
+        public static async Task<Victoria.Responses.Search.SearchResponse> SearchSpotifyAsync(this LavaNode lavaNode, string query, SpotifyClient spotify)
         {
             var trackId = Helper.getSpotifyID(query);
+            var track = await spotify.Tracks.Get(trackId);
+            var trackName = $"{track.Name} {track.Album.Name}";
 
-            var spotify = new SpotifyClient("");
-            var spotifyTrack = await spotify.Tracks.Get(trackId);
-
-            var result = await lavaNode.SearchYouTubeAsync(spotifyTrack.Name);
+            var result = await lavaNode.SearchYouTubeAsync(trackName);
 
             return result;
         }
 
-        public static async Task<List<Victoria.Responses.Search.SearchResponse>> SearchSpotifyPlaylistAsync(this LavaNode lavaNode, string query)
+        public static async Task<List<Victoria.Responses.Search.SearchResponse>> SearchSpotifyPlaylistAsync(this LavaNode lavaNode, string query, SpotifyClient spotify)
         {
             var playlistId = Helper.getSpotifyID(query);
 
-            //Needs to be disposed?
-            //TODO: to seperate class
-            var config = SpotifyClientConfig
-              .CreateDefault()
-              .WithAuthenticator(new ClientCredentialsAuthenticator("", "")); //client, secret
-
-            var spotify = new SpotifyClient(config);
-
-            //Note: is max 100 tracks
-            var spotifyResult = await spotify.Playlists.Get(playlistId);
+            var spotifyResult = await spotify.Playlists.Get(playlistId); //Note: is max 100 tracks
 
             var tasks = spotifyResult.Tracks.Items.Select(playable =>
             {
                 var track = (FullTrack)playable.Track;
+                var trackName = $"{track.Name} {track.Album.Name}";
+
                 return lavaNode.SearchYouTubeAsync(track.Name);
             });
             

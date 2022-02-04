@@ -6,8 +6,6 @@ services:
       - type: volume
         source: lavalink
         target: /opt/Lavalink
-    ports:
-      - "2333:2333"
     # networks:
     #   - botnet
 
