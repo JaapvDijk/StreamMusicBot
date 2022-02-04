@@ -15,7 +15,7 @@ namespace StreamMusicBot
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmdService;
         private IServiceProvider _services;
-        private readonly LogService _logService;
+        //private readonly LogService _logService;
         private IConfiguration _config;
 
         public StreamMusicBotClient()
@@ -38,7 +38,7 @@ namespace StreamMusicBot
                 CaseSensitiveCommands = false
             });
 
-            _logService = new LogService();
+            //_logService = new LogService();
         }
 
         public async Task InitializeAsync()
@@ -57,7 +57,8 @@ namespace StreamMusicBot
 
         private async Task LogAsync(LogMessage logMessage)
         {
-            await _logService.LogAsync(logMessage);
+            //TODO: send log
+            //sample: await _logService.LogAsync(logMessage);
         }
 
         private IServiceProvider SetupServices()
@@ -65,7 +66,6 @@ namespace StreamMusicBot
             return new ServiceCollection()
               .AddSingleton(_client)
               .AddSingleton(_cmdService)
-              .AddSingleton(_logService)
               .AddSingleton<MusicService>()
               .AddSingleton<IConfiguration>(_config)
               .AddSingleton<FavoritesService>()

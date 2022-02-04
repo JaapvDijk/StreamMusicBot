@@ -284,7 +284,8 @@ namespace StreamMusicBot.Services
 
         private async Task LogAsync(LogMessage logMessage)
         {
-            await _logService.LogAsync(logMessage);
+            //TODO: logging
+            //Sample: await _logService.LogAsync(logMessage);
         }
     }
 }

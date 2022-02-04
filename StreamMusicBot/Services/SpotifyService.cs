@@ -17,13 +17,13 @@ namespace StreamMusicBot.Services
         private ClientCredentialsTokenResponse _response;
         private SpotifyClient _client;
 
-        private readonly LogService _logService;
+        //private readonly LogService _logService;
         private readonly IConfiguration _config;
 
-        public SpotifyService(LogService logService,
+        public SpotifyService(//LogService logService,
                               IConfiguration config)
         {
-            _logService = logService;
+            //_logService = logService;
             _config = config;
         }
 
@@ -45,7 +45,7 @@ namespace StreamMusicBot.Services
 
         private async Task SetNewSpotifyClient()
         {
-            await _logService.LogAsync(new LogMessage(LogSeverity.Info, "SetNewSpotifyClient", "Spotify client token expired, requesting token.."));
+            //await _logService.LogAsync(new LogMessage(LogSeverity.Info, "SetNewSpotifyClient", "Spotify client token expired, requesting token.."));
 
             _clientConfig = SpotifyClientConfig.CreateDefault();
             _request = new ClientCredentialsRequest(_config["spotifyClientId"], _config["spotifyClientSecret"]);
