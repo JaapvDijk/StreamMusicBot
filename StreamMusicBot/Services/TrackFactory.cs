@@ -2,21 +2,22 @@
 using Victoria;
 using StreamMusicBot.Extensions;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace StreamMusicBot.Services
 {
     public class TrackFactory
     {
         private readonly LavaNode _lavaNode;
-        private readonly LogService _logService;
+        private readonly ILogger _logger;
         private readonly SpotifyService _spotifyService;
 
         public TrackFactory(LavaNode lavaNode,
-                            LogService logService,
+                           ILogger<TrackFactory> logger,
                             SpotifyService spotifyService)
         {
             _lavaNode = lavaNode;
-            _logService = logService;
+            _logger = logger;
             _spotifyService = spotifyService;
         }
 

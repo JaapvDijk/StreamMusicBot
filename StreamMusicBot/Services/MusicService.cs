@@ -9,26 +9,27 @@ using Victoria;
 using Victoria.Enums;
 using Victoria.EventArgs;
 using StreamMusicBot.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace StreamMusicBot.Services
 {
     public class MusicService
     {
         private readonly LavaNode _lavaRestClient;
-        private readonly LogService _logService;
+        private readonly ILogger _logger;
         private IConfiguration _config;
         private FavoritesService _favoritesService;
         private TrackFactory _trackFactory;
 
         public MusicService(LavaNode lavaRestClient,
-                            LogService logService,
-                            IConfiguration config,
                             FavoritesService favoritesService,
-                            TrackFactory trackFactory)
+                            TrackFactory trackFactory,
+                            ILogger<MusicService> logger,
+                            IConfiguration config)
         {
             _config = config;
             _lavaRestClient = lavaRestClient;
-            _logService = logService;
+            _logger = logger;
             _favoritesService = favoritesService;
             _trackFactory = trackFactory;
 
@@ -284,8 +285,8 @@ namespace StreamMusicBot.Services
 
         private async Task LogAsync(LogMessage logMessage)
         {
-            //TODO: logging
-            //Sample: await _logService.LogAsync(logMessage);
+            await Task.Run(() => _logger.LogDebug(logMessage.Message));
         }
     }
 }
+t

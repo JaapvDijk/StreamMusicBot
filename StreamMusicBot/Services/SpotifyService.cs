@@ -17,25 +17,19 @@ namespace StreamMusicBot.Services
         private ClientCredentialsTokenResponse _response;
         private SpotifyClient _client;
 
-        //private readonly LogService _logService;
         private readonly IConfiguration _config;
+        private readonly ILogger _logger;
 
-        public SpotifyService(//LogService logService,
-                              IConfiguration config)
+        public SpotifyService(IConfiguration config,
+                              ILogger<SpotifyService> logger)
         {
-            //_logService = logService;
+            _logger = logger;
             _config = config;
-        }
-
-        public async Task<SpotifyService> Init()
-        {
-            await SetNewSpotifyClient();
-            return this;
         }
 
         public async Task<SpotifyClient> GetClient()
         {
-            if (_response.IsExpired)
+            if (_response == null || _response.IsExpired) 
             {
                 await SetNewSpotifyClient();
             }
