@@ -11,6 +11,7 @@ using Discord.WebSocket;
 using Discord;
 using Discord.Commands;
 using Victoria;
+using Microsoft.AspNetCore.Hosting;
 
 namespace StreamMusicBot
 {
@@ -29,7 +30,7 @@ namespace StreamMusicBot
             }
             catch (Exception e)
             {
-                Log.Fatal("Host terminated unexpecedly", e);
+                Log.Fatal($"Host terminated unexpectedly. \n {e}", e);
             }
             finally
             {
@@ -50,7 +51,7 @@ namespace StreamMusicBot
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
-            
+
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) => {
                     services
@@ -69,7 +70,7 @@ namespace StreamMusicBot
                     .AddSingleton<MusicService>()
                     .AddSingleton<IConfiguration>(Configuration)
                     .AddSingleton<FavoritesService>()
-                    .AddLavaNode(x => { x.SelfDeaf = false; x.Port = 2333; x.Hostname = Configuration["lavahostname"]; })
+                    .AddLavaNode(x => { x.SelfDeaf = false; x.Port = Convert.ToUInt16(Configuration["lavaport"]); x.Hostname = Configuration["lavahostname"]; x.Authorization = Configuration["lavapass"]; })
                     .AddSingleton<TrackFactory>()
                     .AddSingleton<SpotifyService>();
                 })

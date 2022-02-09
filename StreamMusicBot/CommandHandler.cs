@@ -15,7 +15,9 @@ namespace StreamMusicBot
         private readonly IServiceProvider _services;
         private readonly LavaNode _lavaNode;
 
-        public CommandHandler(DiscordSocketClient client, CommandService cmdService, IServiceProvider services)
+        public CommandHandler(DiscordSocketClient client,
+                              CommandService cmdService,
+                              IServiceProvider services)
         {
             _client = client;
             _cmdService = cmdService;

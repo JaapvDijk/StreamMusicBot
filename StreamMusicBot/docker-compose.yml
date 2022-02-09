@@ -1,26 +1,49 @@
-version: '3'
+version: '3.7'
 services:
-  lavalink-server:
-    image: fredboat/lavalink:master-v3.4
-    volumes:
-      - type: volume
-        source: lavalink
-        target: /opt/Lavalink
-    # networks:
-    #   - botnet
+  lavalink:
+    image: fredboat/lavalink:dev
+    container_name: lavalinkc
+    # volumes:
+    #   - type: volume
+    #     source: lavalink
+    #     target: /opt/Lavalink
+    environment:
+     - server_port=2333
+     - server_address=0.0.0.0
+     - lavalink_server_password=youshallnotpass
+    networks:
+      - botnet
 
   streammusicbot:
     build: .
+    image: streammusicbotreg.azurecr.io/grotepokoes #jaapvdijk/grotepokoes
+    container_name: grotepokoesc
     depends_on:
-      - lavalink-server
+      - lavalink
     environment:
-     - lavahostname=lavalink-server
-    # networks:
-    #   - botnet
+     - lavahostname=lavalink
+    networks:
+      - botnet
 
-volumes:
-  lavalink:
+# volumes:
+#   lavalink:
 
-# networks:
-#   botnet:
-#     external: false
+networks:
+  botnet:
+
+#steps Azure container instances:
+# 1. use docker hub or azure registry
+# az acr create --resource-group <resourcegroupname> --name <registryname> --sku Basic
+# az acr login --name <registryname>
+
+# 2. build compose images and push to registry
+# docker-compose build
+# docker-compose push
+
+# 3. create context and run compose registry
+# docker login azure
+# docker context use {contextname} (or first create)
+# docker compose up
+
+# docker ps
+# docker logs {containername}
