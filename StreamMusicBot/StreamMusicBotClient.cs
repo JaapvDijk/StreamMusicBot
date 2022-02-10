@@ -56,14 +56,14 @@ namespace StreamMusicBot
             {
                 var user = _discordClient.GetUser(socketUser.Id);
 
-                var oldUserVoice = oldVoiceState.VoiceChannel;
-                var newUserVoice = newVoiceState.VoiceChannel;
+                var oldUserVoice = oldVoiceState.VoiceChannel ?? default;
+                var newUserVoice = newVoiceState.VoiceChannel ?? default;
 
                 var id = _discordClient.CurrentUser.Id;
                 var bot = (oldUserVoice != null) ? oldUserVoice.Guild.GetUser(id) : newUserVoice.Guild.GetUser(id);
                 var botVoice = bot.VoiceChannel;
 
-                var wasInSameVoice = (oldUserVoice != null && oldUserVoice.Id == botVoice.Id); //oldUserVoice.Users.Any((user) => user.Id == bot.Id)
+                var wasInSameVoice = (oldUserVoice != null && oldUserVoice.Users.Any((user) => user.Id == bot.Id)); 
                 var voiceIsEmpty = (oldUserVoice != null && oldUserVoice.Users.Where((user) => !user.IsBot).Count() == 0);
 
                 if (wasInSameVoice && voiceIsEmpty)

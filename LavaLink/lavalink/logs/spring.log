@@ -342,3 +342,43 @@
 2022-02-10 19:59:38.226  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"destroy"}
 2022-02-10 20:00:21.171  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:56453 -- CloseStatus[code=1006, reason=]
 2022-02-10 20:00:21.171  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:13:43.686  INFO 21656 --- [XNIO-1 task-85] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:53510
+2022-02-10 20:13:43.688  INFO 21656 --- [XNIO-1 task-85] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:13:43.751  INFO 21656 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:53510 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:13:43.752  INFO 21656 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:14:09.184  INFO 21656 --- [XNIO-1 task-86] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:53526
+2022-02-10 20:14:09.186  INFO 21656 --- [XNIO-1 task-86] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:15:54.216  INFO 21656 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:53526 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:15:54.216  INFO 21656 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:16:01.183  INFO 21656 --- [XNIO-1 task-87] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:53593
+2022-02-10 20:16:01.185  INFO 21656 --- [XNIO-1 task-87] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:18:25.797  INFO 21656 --- [XNIO-1 I/O-1] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:53593 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:18:25.797  INFO 21656 --- [XNIO-1 I/O-1] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:21:32.144  INFO 21656 --- [XNIO-1 task-88] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:62971
+2022-02-10 20:21:32.146  INFO 21656 --- [XNIO-1 task-88] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:22:09.781  INFO 21656 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:62971 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:22:09.781  INFO 21656 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:22:31.928  INFO 21656 --- [XNIO-1 task-89] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:63007
+2022-02-10 20:22:31.930  INFO 21656 --- [XNIO-1 task-89] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:23:02.606  INFO 21656 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:63007 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:23:02.606  INFO 21656 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 20:23:09.759  INFO 21656 --- [XNIO-1 task-90] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:63029
+2022-02-10 20:23:09.761  INFO 21656 --- [XNIO-1 task-90] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 20:24:06.833  INFO 21656 --- [XNIO-1 task-91] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:ah"
+2022-02-10 20:24:07.412  INFO 21656 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: ah
+2022-02-10 20:24:07.462  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"track":"QAAAfgIAIkFUVEEgQU5UQVIgVEhPUklRIEtFIFBBSyBILiBGQUlTQUwAAkFIAAAAAAAMhwgACzZFVDhnT29ETmFRAAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9NkVUOGdPb0ROYVEAB3lvdXR1YmUAAAAAAAAAAA==","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 20:24:07.856  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"725e8b167da15d651091c087cae56775","event":{"token":"fb5fcb12c1e2ffa4","endpoint":"rotterdam5300.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 20:24:15.529  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"stop"}
+2022-02-10 20:24:15.530  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"destroy"}
+2022-02-10 20:24:20.678  INFO 21656 --- [XNIO-1 task-93] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:sdg"
+2022-02-10 20:24:21.126  INFO 21656 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: sdg
+2022-02-10 20:24:21.129  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"track":"QAAAzwIAW1N1c3RhaW5hYmxlIERldmVsb3BtZW50IEdvYWxzIGV4cGxhaW5lZCB3aXRoIDMgdXNlZnVsIHRpcHMgfCBFbnZpcm9ubWVudCBTREcgU3VzdGFpbmFiaWxpdHkAGlN1c3RhaW5hYmlsaXR5IElsbHVzdHJhdGVkAAAAAAAGOcAAC3FmT2dkajRPa2R3AAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9cWZPZ2RqNE9rZHcAB3lvdXR1YmUAAAAAAAAAAA==","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 20:24:21.378  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"725e8b167da15d651091c087cae56775","event":{"token":"808baf4f8c3be03e","endpoint":"rotterdam5630.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 20:24:23.050  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"stop"}
+2022-02-10 20:24:23.051  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"destroy"}
+2022-02-10 20:24:30.751  INFO 21656 --- [XNIO-1 task-95] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:test"
+2022-02-10 20:24:31.246  INFO 21656 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: test
+2022-02-10 20:24:31.249  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"track":"QAAAsgIATSdQYW0gJiBUb21teScgQ2FzdCBUZXN0IEhvdyBXZWxsIFRoZXkgS25vdyBFYWNoIE90aGVyIHwgVmFuaXR5IEZhaXIgR2FtZSBTaG93AAtWYW5pdHkgRmFpcgAAAAAACIOwAAtCeExiRGpVZU1wQQABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PUJ4TGJEalVlTXBBAAd5b3V0dWJlAAAAAAAAAAA=","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 20:24:32.208  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"725e8b167da15d651091c087cae56775","event":{"token":"9ff5008f119ecdc1","endpoint":"rotterdam5674.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 20:24:47.547  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:63029 -- CloseStatus[code=1006, reason=]
+2022-02-10 20:24:47.547  INFO 21656 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
