@@ -1,0 +1,83 @@
+2022-02-10 11:55:38.694  INFO 21200 --- [main] lavalink.server.Launcher                 : 
+
+[32m       .  [31m _                  _ _       _    [32m__ _ _
+[32m      /\\ [31m| | __ ___   ____ _| (_)_ __ | | __[32m\ \ \ \
+[32m     ( ( )[31m| |/ _` \ \ / / _` | | | '_ \| |/ /[32m \ \ \ \
+[32m      \\/ [31m| | (_| |\ V / (_| | | | | | |   < [32m  ) ) ) )
+[32m       '  [31m|_|\__,_| \_/ \__,_|_|_|_| |_|_|\_\[32m / / / /
+[0m    =========================================[32m/_/_/_/[0m
+
+	Version:        5f8b815a98009da98fff9d49e0ab1725145546fc-SNAPSHOT
+	Build:          1330
+	Build time:     12.01.2022 13:53:20 UTC
+	Branch          master
+	Commit:         5f8b815
+	Commit time:    12.01.2022 13:47:45 UTC
+	JVM:            11.0.9
+	Lavaplayer      1.3.96-original
+
+2022-02-10 11:55:38.720  INFO 21200 --- [main] o.s.boot.SpringApplication               : 
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.8.RELEASE)
+
+
+2022-02-10 11:55:38.794  INFO 21200 --- [main] lavalink.server.Launcher                 : Starting Launcher on Computer-slaapkamer with PID 21200 (C:\Repos\StreamMusicBot\LavaLink\lavalink\Lavalink.jar started by dijkv in C:\Repos\StreamMusicBot\LavaLink\lavalink)
+2022-02-10 11:55:38.794  INFO 21200 --- [main] lavalink.server.Launcher                 : No active profile set, falling back to default profiles: default
+2022-02-10 11:55:38.837  WARN 21200 --- [background-preinit] o.s.h.c.j.Jackson2ObjectMapperBuilder    : For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-02-10 11:55:39.851  WARN 21200 --- [main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2022-02-10 11:55:39.872  INFO 21200 --- [main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2022-02-10 11:55:39.872  INFO 21200 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1045 ms
+2022-02-10 11:55:40.155  WARN 21200 --- [main] l.server.config.SentryConfiguration      : Turning off sentry
+2022-02-10 11:55:40.436  INFO 21200 --- [main] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2022-02-10 11:55:40.579  INFO 21200 --- [main] lavalink.server.config.KoeConfiguration  : OS: Windows 10, Arch: amd64
+2022-02-10 11:55:40.580  WARN 21200 --- [main] lavalink.server.config.KoeConfiguration  : This system and architecture appears to not support native audio sending! GC pauses may cause your bot to stutter during playback.
+2022-02-10 11:55:40.734  INFO 21200 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-02-10 11:55:40.983  INFO 21200 --- [main] org.xnio                                 : XNIO version 3.3.8.Final
+2022-02-10 11:55:40.994  INFO 21200 --- [main] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2022-02-10 11:55:41.049  INFO 21200 --- [main] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 2333 (http) with context path ''
+2022-02-10 11:55:41.056  INFO 21200 --- [main] lavalink.server.Launcher                 : Started Launcher in 2.782 seconds (JVM running for 3.265)
+2022-02-10 11:55:41.067  INFO 21200 --- [main] lavalink.server.Launcher                 : You can safely ignore the big red warning about illegal reflection. See https://github.com/freyacodes/Lavalink/issues/295
+2022-02-10 11:56:10.815  INFO 21200 --- [XNIO-1 task-1] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-02-10 11:56:10.815  INFO 21200 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-02-10 11:56:10.821  INFO 21200 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2022-02-10 11:56:10.838  INFO 21200 --- [XNIO-1 task-1] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:53829
+2022-02-10 11:56:10.891  INFO 21200 --- [XNIO-1 task-1] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 11:56:23.003  INFO 21200 --- [XNIO-1 task-2] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:a"
+2022-02-10 11:56:23.866  INFO 21200 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: a
+2022-02-10 11:56:23.970  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : {"track":"QAAA4gIAbEFkbGV54oCZcyBIQWlSIFNBTE9OIGFuZCBTUEEg7aC97buBICBEYWQgZ2V0cyBhIE1ha2VvdmVyISEgTmlrb\u002BKAmXMgbmV3IFNwaWRlciBNYW4gaGFpcmN1dCBmcm9tIGNhcnRvb24gTW9tIQAcQSBmb3IgQWRsZXkgLSBMZWFybmluZyAmIEZ1bgAAAAAAEpXQAAtGRjVoUmczcEpMbwABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PUZGNWhSZzNwSkxvAAd5b3V0dWJlAAAAAAAAAAA=","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 11:56:23.974  WARN 21200 --- [XNIO-1 I/O-9] lavalink.server.io.WebSocketHandlers     : The volume property in the play operation has been deprecatedand will be removed in v4. Please configure a filter instead. Note that the new filter takes a float value with 1.0 being 100%
+2022-02-10 11:56:24.250  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"6b6f4318594182facfa2c598ea3d6425","event":{"token":"876de1e6ba821c4c","endpoint":"rotterdam6207.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 11:58:04.437  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:53829 -- CloseStatus[code=1006, reason=]
+2022-02-10 11:58:04.438  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketContext         : Shutting down 1 playing players.
+2022-02-10 11:58:12.001  INFO 21200 --- [XNIO-1 task-4] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:52963
+2022-02-10 11:58:12.003  INFO 21200 --- [XNIO-1 task-4] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 11:59:34.032  INFO 21200 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:52963 -- CloseStatus[code=1006, reason=]
+2022-02-10 11:59:34.032  INFO 21200 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 11:59:44.506  INFO 21200 --- [XNIO-1 task-5] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:56361
+2022-02-10 11:59:44.509  INFO 21200 --- [XNIO-1 task-5] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 11:59:54.446  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"3c877454e8d19cfd5a39bd0615b52a33","event":{"token":"705a505ea5de262e","endpoint":"rotterdam6207.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 12:00:51.014  INFO 21200 --- [XNIO-1 task-6] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:hoi"
+2022-02-10 12:00:51.529  INFO 21200 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: hoi
+2022-02-10 12:00:51.564  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : {"track":"QAAAbgIAEEhvaSBpayBiZW4gYmliaSEABEJpYmkAAAAAAABdwAALdlhWcXRiOE4tT1kAAQAraHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj12WFZxdGI4Ti1PWQAHeW91dHViZQAAAAAAAAAA","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 12:03:19.917  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:56361 -- CloseStatus[code=1006, reason=]
+2022-02-10 12:03:19.917  INFO 21200 --- [XNIO-1 I/O-9] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 12:03:39.872  INFO 21200 --- [XNIO-1 task-8] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:53432
+2022-02-10 12:03:39.875  INFO 21200 --- [XNIO-1 task-8] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 12:04:46.865  INFO 21200 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"54e9be64587716161ac25ef874aca56c","event":{"token":"705a505ea5de262e","endpoint":"rotterdam6207.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 12:05:12.644  INFO 21200 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:53432 -- CloseStatus[code=1006, reason=]
+2022-02-10 12:05:12.645  INFO 21200 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2022-02-10 12:05:19.551  INFO 21200 --- [XNIO-1 task-9] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50687
+2022-02-10 12:05:19.553  INFO 21200 --- [XNIO-1 task-9] lavalink.server.io.SocketServer          : Connection successfully established from Victoria/5.2.5.0
+2022-02-10 12:05:58.928  INFO 21200 --- [XNIO-1 task-10] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:Perception Astrolabe Choice: Diamans"
+2022-02-10 12:05:59.450  INFO 21200 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: Perception Astrolabe Choice: Diamans
+2022-02-10 12:05:59.506  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : {"track":"QAAAcwIAClBlcmNlcHRpb24AD0RpYW1hbnMgLSBUb3BpYwAAAAAABOXoAAtEaGtHaGMxVzNNWQABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PURoa0doYzFXM01ZAAd5b3V0dWJlAAAAAAAAAAA=","volume":100,"guildId":"585401041382539287","op":"play"}
+2022-02-10 12:05:59.807  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","sessionId":"f30a9c4f646e96bfd6fc86056bd86450","event":{"token":"705a505ea5de262e","endpoint":"rotterdam6207.discord.media:443"},"op":"voiceUpdate"}
+2022-02-10 12:11:36.945  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"stop"}
+2022-02-10 12:11:36.946  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : {"guildId":"585401041382539287","op":"destroy"}
+2022-02-10 12:11:46.490  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50687 -- CloseStatus[code=1006, reason=]
+2022-02-10 12:11:46.490  INFO 21200 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
