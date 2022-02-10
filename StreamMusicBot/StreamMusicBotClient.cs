@@ -3,8 +3,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using StreamMusicBot.Services;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace StreamMusicBot
 {
@@ -16,25 +18,29 @@ namespace StreamMusicBot
 
         private readonly ILogger _logger;
         private IConfiguration _config;
+        private MusicService _musicService;
 
         public StreamMusicBotClient(IConfiguration config,
                                     ILogger<StreamMusicBotClient> logger,
                                     IServiceProvider services,
                                     DiscordSocketClient discordClient,
-                                    CommandService cmdService)
+                                    CommandService cmdService,
+                                    MusicService musicService)
         {
             _config = config;
             _logger = logger;
             _services = services;
             _discordClient = discordClient;
             _cmdService = cmdService;
+            _musicService = musicService;
         }
 
         public async Task InitializeAsync()
         {
             await _discordClient.LoginAsync(TokenType.Bot, _config["token"]);
             await _discordClient.StartAsync();
-            _discordClient.Log += LogAsync;
+            _discordClient.Log += (logMessage) => Task.Run(() => _logger.LogDebug(logMessage.Message));
+            _discordClient.UserVoiceStateUpdated += UserVoiceStateUpdated;
 
             var cmdHandler = new CommandHandler(_discordClient, _cmdService, _services);
             await cmdHandler.InitializeAsync();
@@ -43,9 +49,31 @@ namespace StreamMusicBot
             await Task.Delay(-1);
         }
 
-        private async Task LogAsync(LogMessage logMessage)
+        //Let bot leave from an empty voicechannel
+        private async Task UserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState oldVoiceState, SocketVoiceState newVoiceState)
         {
-            await Task.Run(() => _logger.LogDebug(logMessage.Message));
+            if (!socketUser.IsBot)
+            {
+                var user = _discordClient.GetUser(socketUser.Id);
+
+                var oldUserVoice = oldVoiceState.VoiceChannel;
+                var newUserVoice = newVoiceState.VoiceChannel;
+
+                var id = _discordClient.CurrentUser.Id;
+                var bot = (oldUserVoice != null) ? oldUserVoice.Guild.GetUser(id) : newUserVoice.Guild.GetUser(id);
+                var botVoice = bot.VoiceChannel;
+
+                var wasInSameVoice = (oldUserVoice != null && oldUserVoice.Id == botVoice.Id); //oldUserVoice.Users.Any((user) => user.Id == bot.Id)
+                var voiceIsEmpty = (oldUserVoice != null && oldUserVoice.Users.Where((user) => !user.IsBot).Count() == 0);
+
+                if (wasInSameVoice && voiceIsEmpty)
+                {
+                    await _musicService.LeaveAsync(botVoice);
+
+                    _logger.LogDebug($"{bot.Username} left {botVoice.Name} (voicehannel is empty)");
+                }
+            }
+
         }
     }
 }
