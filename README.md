@@ -1,3 +1,5 @@
+Added to the fork: Some extra commands, .NET 6 and Docker (compose)
+
 ### Simple MusicBot Built On [Stream](https://www.youtube.com/watch?v=QwYmRNlgzaA)
 ##### This is a super simple starter example of how you can build your very own Music Bot in C# (Dotnet Core) using the following libraries. Please note that it also has a vod of the stream I did, in which I explain each aspect of the code as I write it. (Linked above in the title) 
 
