@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace StreamMusicBot.Modules
@@ -8,6 +9,7 @@ namespace StreamMusicBot.Modules
         [Command("Ping")]
         public async Task Pong()
         {
+            Log.Information("PING PING PING");
             await ReplyAsync("PONG!");
         }
     }

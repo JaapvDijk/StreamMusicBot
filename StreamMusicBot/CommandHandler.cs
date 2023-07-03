@@ -1,7 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using StreamMusicBot.Services;
 using System;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading.Tasks;
 using Victoria;
@@ -14,6 +18,7 @@ namespace StreamMusicBot
         private readonly CommandService _cmdService;
         private readonly IServiceProvider _services;
         private readonly LavaNode _lavaNode;
+
 
         public CommandHandler(DiscordSocketClient client,
                               CommandService cmdService,
@@ -31,7 +36,7 @@ namespace StreamMusicBot
         {
             if (!_lavaNode.IsConnected)
             {
-                _lavaNode.ConnectAsync();
+                await _lavaNode.ConnectAsync();
             }
             // Other ready related stuff
         }
@@ -45,22 +50,31 @@ namespace StreamMusicBot
 
         private async Task HandleMessageAsync(SocketMessage socketMessage)
         {
-            var argPos = 0;
-            var CommandPrefixChar = "!";
+            try
+            {
+                var argPos = 0;
+                var CommandPrefixChar = "!";
 
-            if (socketMessage.Author.IsBot) return;
+                if (socketMessage.Author.IsBot) return;
 
-            var userMessage = socketMessage as SocketUserMessage;
-            if (userMessage is null)
-                return;
+                var userMessage = socketMessage as SocketUserMessage;
+                if (userMessage is null)
+                    return;
 
-            //TODO "!" prefix
-            if (!userMessage.HasMentionPrefix(_client.CurrentUser, ref argPos) &&
-                !userMessage.HasStringPrefix(CommandPrefixChar, ref argPos, StringComparison.OrdinalIgnoreCase))
-                return;
+                //TODO "!" prefix (commented out stuff no worki)
+                if (!userMessage.HasMentionPrefix(_client.CurrentUser, ref argPos) &&
+                    !userMessage.HasStringPrefix(CommandPrefixChar, ref argPos, StringComparison.OrdinalIgnoreCase))
+                    return;
 
-            var context = new SocketCommandContext(_client, userMessage);
-            await _cmdService.ExecuteAsync(context, argPos, _services);
+                Log.Information($"Received command message {userMessage.Content} -"); //msg empty??
+
+                var context = new SocketCommandContext(_client, userMessage);
+                await _cmdService.ExecuteAsync(context, argPos, _services);
+            }
+            catch(Exception ex) 
+            { 
+                Log.Information($"MessageReceived handler ex: {ex.Message}");
+            }
         }
 
         private Task LogAsync(LogMessage logMessage)

@@ -60,17 +60,24 @@ namespace StreamMusicBot
                      {
                          AlwaysDownloadUsers = true,
                          MessageCacheSize = 25,
-                         LogLevel = LogSeverity.Debug
-                     }))
+                         LogLevel = LogSeverity.Debug,
+                         //GatewayIntents = GatewayIntents.DirectMessages
+                    }))
                     .AddSingleton(new CommandService(new CommandServiceConfig
                     {
                         LogLevel = LogSeverity.Verbose,
                         CaseSensitiveCommands = false
                     }))
                     .AddSingleton<MusicService>()
-                    .AddSingleton<IConfiguration>(Configuration)
+                    .AddSingleton(Configuration)
                     .AddSingleton<FavoritesService>()
-                    .AddLavaNode(x => { x.SelfDeaf = false; x.Port = Convert.ToUInt16(Configuration["lavaport"]); x.Hostname = Configuration["lavahostname"]; x.Authorization = Configuration["lavapass"]; })
+                    .AddLavaNode(x => 
+                        { 
+                            x.SelfDeaf = false;
+                            x.Port = Convert.ToUInt16(Configuration["lavaport"]); 
+                            x.Hostname = Configuration["lavahostname"]; 
+                            x.Authorization = Configuration["lavapass"]; 
+                        })
                     .AddSingleton<TrackFactory>()
                     .AddSingleton<SpotifyService>();
                 })

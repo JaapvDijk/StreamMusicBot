@@ -37,10 +37,11 @@ namespace StreamMusicBot
 
         public async Task InitializeAsync()
         {
-            await _discordClient.LoginAsync(TokenType.Bot, _config["token"]);
+            await _discordClient.LoginAsync(TokenType.Bot, _config["discord_token"]);
             await _discordClient.StartAsync();
-            _discordClient.Log += (logMessage) => Task.Run(() => _logger.LogDebug(logMessage.Message));
-            _discordClient.UserVoiceStateUpdated += UserVoiceStateUpdated;
+            _discordClient.Log += (logMessage) => Task.Run(() => _logger.LogDebug($"Discord client: {logMessage.Message}"));
+            _discordClient.UserVoiceStateUpdated += LeaveEmptyVoicechannel;
+            _discordClient.UserVoiceStateUpdated += FollowUser;
 
             var cmdHandler = new CommandHandler(_discordClient, _cmdService, _services);
             await cmdHandler.InitializeAsync();
@@ -50,30 +51,38 @@ namespace StreamMusicBot
         }
 
         //Let bot leave from an empty voicechannel
-        private async Task UserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState oldVoiceState, SocketVoiceState newVoiceState)
+        private async Task LeaveEmptyVoicechannel(SocketUser socketUser, SocketVoiceState oldVoiceState, SocketVoiceState newVoiceState)
         {
             if (!socketUser.IsBot)
             {
                 var user = _discordClient.GetUser(socketUser.Id);
 
-                var oldUserVoice = oldVoiceState.VoiceChannel ?? default;
-                var newUserVoice = newVoiceState.VoiceChannel ?? default;
+                var oldUserVoice = oldVoiceState.VoiceChannel;
+                var newUserVoice = newVoiceState.VoiceChannel;
 
                 var id = _discordClient.CurrentUser.Id;
-                var bot = (oldUserVoice != null) ? oldUserVoice.Guild.GetUser(id) : newUserVoice.Guild.GetUser(id);
+                var bot = (oldUserVoice != null) ? 
+                            oldUserVoice.Guild.GetUser(id) : 
+                            newUserVoice.Guild.GetUser(id);
                 var botVoice = bot.VoiceChannel;
 
-                var wasInSameVoice = (oldUserVoice != null && oldUserVoice.Users.Any((user) => user.Id == bot.Id)); 
-                var voiceIsEmpty = (oldUserVoice != null && oldUserVoice.Users.Where((user) => !user.IsBot).Count() == 0);
+                var wasInSameVoice = oldUserVoice != null && 
+                                     oldUserVoice.Users.Any((user) => user.Id == bot.Id);
+                var voiceIsEmpty = oldUserVoice != null && 
+                                  !oldUserVoice.Users.Where((user) => !user.IsBot).Any();
 
                 if (wasInSameVoice && voiceIsEmpty)
                 {
                     await _musicService.LeaveAsync(botVoice);
 
-                    _logger.LogDebug($"{bot.Username} left {botVoice.Name} (voicehannel is empty)");
+                    _logger.LogInformation($"{bot.Username} left {botVoice.Name} (voicehannel is empty)");
                 }
             }
+        }
+
+        private async Task FollowUser(SocketUser socketUser, SocketVoiceState oldVoiceState, SocketVoiceState newVoiceState)
+        {
 
         }
-    }
+        }
 }
