@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using Serilog;
 using StreamMusicBot.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -97,8 +98,10 @@ namespace StreamMusicBot.Modules
 
         [Command("Help")]
         public async Task Help(string command = "")
-            => await ReplyAsync(await _musicService.HelpAsyc(Context.Guild, command));
-
+        {
+            Log.Information("Used help command");
+            await ReplyAsync(await _musicService.HelpAsyc(Context.Guild, command));
+        }
         [Command("Favorites")]
         public async Task Favorites(string operation = "", [Remainder] string query = "")
             => await ReplyAsync(await _musicService.FavoritesAsync(operation, query));

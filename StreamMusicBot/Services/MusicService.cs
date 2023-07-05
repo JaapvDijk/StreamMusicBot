@@ -213,14 +213,15 @@ namespace StreamMusicBot.Services
 
             return "I dont quite understand that mi lord";
         }
-
+        
         public async Task<string> HelpAsyc(IGuild guild, string command)
         {
-            switch (command.ToLower())
+            switch (command.ToLower()) //TODO: move to appsettings
             {
                 case "play":
-                    return "play a song \n" +
-                           "Parameters: {url/title}";
+                    return "play a song.\n " +
+                           "supported: Spotify, Youtube, Soundcloud)\n" +
+                           "Parameters: {url/title: required}";
 
                 case "leave":
                     return "disconnect the bot from the current channel \n" +
@@ -232,11 +233,11 @@ namespace StreamMusicBot.Services
 
                 case "skip":
                     return "start playing next track in the queue \n" +
-                           "Parameters: {amount}";
+                           "Parameters: {amount: optional}";
 
                 case "volume":
                     return "set the play volume of the bot (between 2-100) \n" +
-                           "Parameters: {percentage}";
+                           "Parameters: {percentage: required}";
 
                 case "pause":
                     return "pause the current track at the current position \n" +
@@ -252,18 +253,18 @@ namespace StreamMusicBot.Services
 
                 case "forward":
                     return "Forward the current track for a specified number of seconds \n" +
-                           "Parameters: {seconds} \n" +
+                           "Parameters: {seconds: required} \n" +
                            "Additional info: 'forward -20', track will go back 20 seconds";
 
                 case "favorites":
                     return "Manage your favorite tracks \n" +
-                           "Parameters: {operation} {track} \n" +
+                           "Parameters: {remove_add} {track} \n" +
                            "Samples info: 'favorites \n favorites add ikwilkaas \n favorites remove 1";
 
                 default:
-                    return "Get more info: 'help {command}' \n" +
+                    return "'help {command_name}' \n" +
                            "The following commands are available: \n" +
-                           "Play, Leave Stop, Skip, Volume, Pause, np, Forward, Queue";
+                           "Play, Leave, Stop, Skip, Volume, Pause, np, Forward, Queue, Favorites";
 
             }
         }

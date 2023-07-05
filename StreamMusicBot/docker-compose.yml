@@ -16,7 +16,7 @@ services:
 
   streammusicbot:
     build: .
-    image: streammusicbotreg.azurecr.io/grotepokoes #streammusicbotreg.azurecr.io/grotepokoes
+    image: streammusicbotreg.azurecr.io/grotepokoes:latest #jaapvdijk/grotepokoes
     container_name: grotepokoesc
     depends_on:
       - lavalink
@@ -42,7 +42,7 @@ networks:
 
 # 3. create context and run compose registry
 # docker login azure
-# docker context use {contextname} (or first create)
+# docker context use {contextname} (or first "aci create" for azure)
 # docker compose up
 
 # docker ps
