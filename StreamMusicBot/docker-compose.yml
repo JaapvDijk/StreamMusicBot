@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   lavalink:
-    image: fredboat/lavalink:dev
+    image: fredboat/lavalink:latest
     container_name: lavalinkc
     # volumes:
     #   - type: volume
@@ -36,7 +36,7 @@ networks:
 # az acr create --resource-group <resourcegroupname> --name <registryname> --sku Basic
 # az acr login --name <registryname>
 
-# 2. build compose images and push to registry
+# 2. build compose images and push to registry 
 # docker-compose build
 # docker-compose push
 
