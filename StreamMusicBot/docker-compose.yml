@@ -16,7 +16,7 @@ services:
 
   streammusicbot:
     build: .
-    image: streammusicbotreg.azurecr.io/grotepokoes #jaapvdijk/grotepokoes
+    image: streammusicbotreg.azurecr.io/grotepokoes #streammusicbotreg.azurecr.io/grotepokoes
     container_name: grotepokoesc
     depends_on:
       - lavalink

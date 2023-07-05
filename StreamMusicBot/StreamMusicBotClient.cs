@@ -61,16 +61,16 @@ namespace StreamMusicBot
 
                 var id = _discordClient.CurrentUser.Id;
                 var bot = (oldUserVoice != null) ? oldUserVoice.Guild.GetUser(id) : newUserVoice.Guild.GetUser(id);
-                var botVoice = bot.VoiceChannel;
+                var botVoiceChannel = bot.VoiceChannel;
 
                 var wasInSameVoice = (oldUserVoice != null && oldUserVoice.Users.Any((user) => user.Id == bot.Id)); 
                 var voiceIsEmpty = (oldUserVoice != null && oldUserVoice.Users.Where((user) => !user.IsBot).Count() == 0);
 
                 if (wasInSameVoice && voiceIsEmpty)
                 {
-                    await _musicService.LeaveAsync(botVoice);
+                    await _musicService.LeaveAsync(botVoiceChannel);
 
-                    _logger.LogDebug($"{bot.Username} left {botVoice.Name} (voicehannel is empty)");
+                    _logger.LogDebug($"{bot.Username} left {botVoiceChannel.Name} (voicehannel is empty)");
                 }
             }
 

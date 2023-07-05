@@ -102,5 +102,13 @@ namespace StreamMusicBot.Modules
         [Command("Favorites")]
         public async Task Favorites(string operation = "", [Remainder] string query = "")
             => await ReplyAsync(await _musicService.FavoritesAsync(operation, query));
+
+        [Command("Follow")]
+        public async Task Follow()
+        {
+            var user = Context.User as SocketGuildUser;
+
+            await ReplyAsync(await _musicService.FollowAsync(user));
+        }
     }
 }

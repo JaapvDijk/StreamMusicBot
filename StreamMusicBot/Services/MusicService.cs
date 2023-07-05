@@ -270,17 +270,21 @@ namespace StreamMusicBot.Services
 
         private async Task TrackFinished(TrackEndedEventArgs args)
         {
-            //TODO: check args.Reason value
-            if (!args.Reason.Equals(TrackEndReason.Finished))
+            var trackFinished = args.Reason.Equals(TrackEndReason.Finished);
+            if (trackFinished)
             {
-                return;
+                var _player = args.Player;
+
+                await _player.SkipAsync();
+
+                var _nextTrack = _player.Queue.Peek();
+                await _player.PlayAsync(_nextTrack);
             }
-            var _player = args.Player;
+        }
 
-            await _player.SkipAsync();
-
-            var _nextTrack = _player.Queue.Peek();
-            await _player.PlayAsync(_nextTrack);
+        public async Task<string> FollowAsync(SocketUser user)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task LogAsync(LogMessage logMessage)
