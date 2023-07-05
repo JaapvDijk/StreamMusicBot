@@ -43,7 +43,7 @@ networks:
 # 3. create context and run compose registry
 # docker login azure
 # docker context use {contextname} (or first "aci create" for azure)
-# docker compose up
+# docker compose up (or start on portal.azure.com)
 
 # docker ps
 # docker logs {containername}
