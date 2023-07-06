@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   lavalink:
-    image: fredboat/lavalink:latest
+    image: fredboat/lavalink:dev
     container_name: lavalinkc
     # volumes:
     #   - type: volume
@@ -37,12 +37,12 @@ networks:
 # az acr login --name <registryname>
 
 # 2. build compose images and push to registry
-# docker-compose build (in local docker context)
-# docker-compose push (in local docker context)
+# docker-compose build
+# docker-compose push
 
 # 3. create context and run compose registry
 # docker login azure
-# docker context use {contextname} (in remote context ("aci" for azure container instance))
+# docker context use {contextname} (or first "aci create" for azure)
 # docker compose up (or start on portal.azure.com)
 
 # docker ps
