@@ -11,7 +11,7 @@ using Discord.WebSocket;
 using Discord;
 using Discord.Commands;
 using Victoria;
-using Microsoft.AspNetCore.Hosting;
+using StreamMusicBot.Extensions;
 
 namespace StreamMusicBot
 {
@@ -25,8 +25,13 @@ namespace StreamMusicBot
             {
                 Log.Information("Starting bot..");
 
-                var client = host.Services.GetRequiredService<StreamMusicBotClient>();
-                await client.InitializeAsync();
+                var spotifyClient = host.Services.GetRequiredService<SpotifyService>();
+                Extensions.Extensions.Initialize(spotifyClient);
+
+                #region the bot. app starts here.
+                var botClient = host.Services.GetRequiredService<StreamMusicBotClient>();
+                await botClient.InitializeAsync();
+                #endregion
             }
             catch (Exception e)
             {
@@ -36,6 +41,7 @@ namespace StreamMusicBot
             {
                 Log.CloseAndFlush();
             }
+
         }
 
         static IHost Start()

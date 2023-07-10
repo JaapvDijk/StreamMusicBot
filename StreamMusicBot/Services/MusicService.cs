@@ -17,7 +17,6 @@ namespace StreamMusicBot.Services
     {
         private readonly LavaNode _lavaRestClient;
         private readonly ILogger _logger;
-        private IConfiguration _config;
         private FavoritesService _favoritesService;
         private TrackFactory _trackFactory;
 
@@ -27,7 +26,6 @@ namespace StreamMusicBot.Services
                             ILogger<MusicService> logger,
                             IConfiguration config)
         {
-            _config = config;
             _lavaRestClient = lavaRestClient;
             _logger = logger;
             _favoritesService = favoritesService;
@@ -60,8 +58,7 @@ namespace StreamMusicBot.Services
                     await _player.PlayAsync(track);
             }
 
-            return $"Added {tracks.Count()} song(s) \n " +
-                $"{await NowPlayingAsync(context.Guild)}";
+            return $"Added {tracks.Count()} song(s)";
         }
 
         public async Task<string> StopAsync(IGuild guild)
@@ -142,10 +139,10 @@ namespace StreamMusicBot.Services
         public async Task<string> QueueAsync(IGuild guild)
         {
             var _player = _lavaRestClient.GetPlayer(guild);
-            if (_player is null || _player.Queue.Count() is 0)
+            if (_player is null || !_player.Queue.Any())
                 return "Nothing in queue.";
 
-            var _tracks = await NowPlayingAsync(guild);
+            var _tracks = "";
 
             var i = 1;
             foreach (var track in _player.Queue)
@@ -168,9 +165,9 @@ namespace StreamMusicBot.Services
                 $"**[Current]** " +
                 $"[**{_track.Position.ToHumanReadableString()} | " +
                 $"{_track.Duration.ToHumanReadableString()}**] " +
-                $"{_track.Title}";
+                $"{_track.Author}: {_track.Title}\n{_track.Url}";
 
-            return (_isPlaying) ? $"{_nowPlaying} \n" : "I'm not playing any music";
+            return _isPlaying ? $"{_nowPlaying}\n" : "I'm not playing any music";
         }
 
         public async Task<string> ForwardAsync(IGuild guild, int seconds)

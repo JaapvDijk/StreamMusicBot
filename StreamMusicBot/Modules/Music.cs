@@ -4,6 +4,7 @@ using Serilog;
 using StreamMusicBot.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Victoria.Responses.Search;
 
 namespace StreamMusicBot.Modules
 {
