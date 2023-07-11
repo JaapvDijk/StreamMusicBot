@@ -4,7 +4,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>StreamMusicBot</ActiveDebugProfile>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
     <_LastSelectedProfileId>C:\Repos\StreamMusicBot\StreamMusicBot\Properties\PublishProfiles\StreamMusicBotTempTest - Web Deploy.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
 </Project>

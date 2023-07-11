@@ -12,26 +12,39 @@ using Discord;
 using Discord.Commands;
 using Victoria;
 using StreamMusicBot.Extensions;
+using Hangfire;
+using Microsoft.Extensions.Options;
+using Hangfire.LiteDB;
+using System.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace StreamMusicBot
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
-            var host = Start();
-
+            var app = BuildApp();
+            
             try
             {
                 Log.Information("Starting bot..");
 
-                var spotifyClient = host.Services.GetRequiredService<SpotifyService>();
+                var spotifyClient = app.Services.GetRequiredService<SpotifyService>();
                 Extensions.Extensions.Initialize(spotifyClient);
 
-                #region the bot. app starts here.
-                var botClient = host.Services.GetRequiredService<StreamMusicBotClient>();
-                await botClient.InitializeAsync();
-                #endregion
+                Log.Information("initialized with spotify..");
+
+                var botClient = app.Services.GetRequiredService<StreamMusicBotClient>();
+                await botClient.InitializeAsync(); //Bot stats here
+
+                Log.Information("Started bot succesfully..");
+
+                app.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello World!");
+                });
+                app.Run();
             }
             catch (Exception e)
             {
@@ -41,10 +54,9 @@ namespace StreamMusicBot
             {
                 Log.CloseAndFlush();
             }
-
         }
 
-        static IHost Start()
+        static WebApplication BuildApp()
         {
             IConfiguration Configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -58,37 +70,40 @@ namespace StreamMusicBot
                 .WriteTo.Console()
                 .CreateLogger();
 
-            return Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) => {
-                    services
-                    .AddSingleton<StreamMusicBotClient>()
-                    .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig
-                     {
-                         AlwaysDownloadUsers = true,
-                         MessageCacheSize = 25,
-                         LogLevel = LogSeverity.Debug,
-                         //GatewayIntents = GatewayIntents.DirectMessages
-                    }))
-                    .AddSingleton(new CommandService(new CommandServiceConfig
-                    {
-                        LogLevel = LogSeverity.Verbose,
-                        CaseSensitiveCommands = false
-                    }))
-                    .AddSingleton<MusicService>()
-                    .AddSingleton(Configuration)
-                    .AddSingleton<FavoritesService>()
-                    .AddLavaNode(x => 
-                        { 
-                            x.SelfDeaf = false;
-                            x.Port = Convert.ToUInt16(Configuration["lavaport"]); 
-                            x.Hostname = Configuration["lavahostname"]; 
-                            x.Authorization = Configuration["lavapass"]; 
-                        })
-                    .AddSingleton<TrackFactory>()
-                    .AddSingleton<SpotifyService>();
-                })
-                .UseSerilog()
-                .Build();
+            var builder = WebApplication.CreateBuilder();
+            builder.Services.AddSingleton(Configuration);
+            builder.Services.AddSingleton<StreamMusicBotClient>();
+            builder.Services.AddSingleton(new DiscordSocketClient(new DiscordSocketConfig
+            {
+                AlwaysDownloadUsers = true,
+                MessageCacheSize = 25,
+                LogLevel = LogSeverity.Debug,
+                //GatewayIntents = GatewayIntents.DirectMessages (requires verification when bot reaches 100+ servers)
+            }));
+            builder.Services.AddSingleton(new CommandService(new CommandServiceConfig
+            {
+                LogLevel = LogSeverity.Verbose,
+                CaseSensitiveCommands = false
+            }));
+            builder.Services.AddSingleton<MusicService>();
+            builder.Services.AddSingleton<FavoritesService>();
+            builder.Services.AddSingleton<TrackFactory>();
+            builder.Services.AddSingleton<SpotifyService>();
+            builder.Services.AddLavaNode(x =>
+            {
+                x.SelfDeaf = false;
+                x.Port = Convert.ToUInt16(Configuration["lavaport"]);
+                x.Hostname = Configuration["lavahostname"];
+                x.Authorization = Configuration["lavapass"];
+            });
+            //builder.Services.AddHangfire(config => config.UseLiteDbStorage("./hangfire.db"));
+            //builder.Services.AddHangfireServer();
+            builder.Host.UseSerilog();
+
+            var app = builder.Build();
+            //app.UseHangfireDashboard();
+
+            return app;
         }
     }
 }
