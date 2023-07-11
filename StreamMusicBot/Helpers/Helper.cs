@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace StreamMusicBot
+namespace StreamMusicBot.Helpers
 {
     public static class Helper
     {
