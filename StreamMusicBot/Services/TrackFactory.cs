@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Victoria;
-using StreamMusicBot.Extensions;
+using StreamMusicBot.MyExtensions;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -10,14 +10,10 @@ namespace StreamMusicBot.Services
     public class TrackFactory
     {
         private readonly LavaNode _lavaNode;
-        private readonly SpotifyService _spotifyService;
 
-        public TrackFactory(LavaNode lavaNode,
-                           ILogger<TrackFactory> logger,
-                            SpotifyService spotifyService)
+        public TrackFactory(LavaNode lavaNode)
         {
             _lavaNode = lavaNode;
-            _spotifyService = spotifyService;
         }
 
         public async Task<IEnumerable<LavaTrack>> GetTrack(string query)

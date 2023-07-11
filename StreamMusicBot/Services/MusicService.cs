@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Victoria;
 using Victoria.Enums;
 using Victoria.EventArgs;
-using StreamMusicBot.Extensions;
+using StreamMusicBot.MyExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace StreamMusicBot.Services
@@ -17,8 +17,8 @@ namespace StreamMusicBot.Services
     {
         private readonly LavaNode _lavaRestClient;
         private readonly ILogger _logger;
-        private FavoritesService _favoritesService;
-        private TrackFactory _trackFactory;
+        private readonly FavoritesService _favoritesService;
+        private readonly TrackFactory _trackFactory;
 
         public MusicService(LavaNode lavaRestClient,
                             FavoritesService favoritesService,

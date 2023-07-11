@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Victoria;
 using Victoria.Responses.Search;
 
-namespace StreamMusicBot.Extensions
+namespace StreamMusicBot.MyExtensions
 {
     public static class Extensions
     {
