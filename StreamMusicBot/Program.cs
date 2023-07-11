@@ -72,11 +72,11 @@ Extensions.Initialize(spotifyClient);
 Log.Information("Starting bot..");
 try
 {
-    app.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Hello World!");
-    });
-    app.Run();
+    //app.MapGet("/", async context =>
+    //{
+    //    await context.Response.WriteAsync("Hello World!");
+    //});
+    //app.Run();
     await botClient.InitializeAsync(); //Bot stats here
 
 }
