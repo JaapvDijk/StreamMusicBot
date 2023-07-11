@@ -77,7 +77,7 @@ try
         await context.Response.WriteAsync("Hello World!");
     });
     app.Run();
-    //await botClient.InitializeAsync(); //Bot stats here
+    await botClient.InitializeAsync(); //Bot stats here
 
 }
 catch (Exception e)
