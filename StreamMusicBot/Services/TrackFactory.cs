@@ -2,6 +2,7 @@
 using Victoria;
 using StreamMusicBot.MyExtensions;
 using System.Collections.Generic;
+using StreamMusicBot.Helpers;
 
 namespace StreamMusicBot.Services
 {
@@ -15,29 +16,23 @@ namespace StreamMusicBot.Services
         }
         public async Task<IEnumerable<LavaTrack>> GetTracks(string query)
         {
-            var tracks = new List<LavaTrack>();
-
             switch (query)
             {
-                case var a when a.Contains("open.spotify") && a.Contains("track"):
+                case string x when Helper.isSpotifyTrack(x):
                     var trackReponse = await _lavaNode.SearchSpotifyAsync(query);
-                    tracks.Add(trackReponse.GetFirstLavaTrack());
-                    return tracks;
+                    return new List<LavaTrack>() { trackReponse.GetFirstLavaTrack() };
 
-                case var a when a.Contains("open.spotify") && a.Contains("playlist"):
+                case string x when Helper.isSpotifyPlaylist(x):
                     var playListReponse = await _lavaNode.SearchSpotifyPlaylistAsync(query);
-                    tracks.AddRange(playListReponse.GetLavaTracks());
-                    return tracks;
+                    return playListReponse.GetLavaTracks();
 
-                case var a when a.Contains("soundcloud."):
+                case string x when Helper.isSoundCloud(x):
                     trackReponse = await _lavaNode.SearchSoundCloudAsync(query);
-                    tracks.Add(trackReponse.GetFirstLavaTrack());
-                    return tracks;
+                    return new List<LavaTrack>() { trackReponse.GetFirstLavaTrack() };
 
                 default:
                     trackReponse = await _lavaNode.SearchYouTubeAsync(query);
-                    tracks.Add(trackReponse.GetFirstLavaTrack());
-                    return tracks;
+                    return new List<LavaTrack>() { trackReponse.GetFirstLavaTrack() };
             }
         }
     }

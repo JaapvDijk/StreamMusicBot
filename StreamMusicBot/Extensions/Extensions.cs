@@ -55,7 +55,7 @@ namespace StreamMusicBot.MyExtensions
 
             var trackId = Helper.getSpotifyID(query);
             var track = await spotifyClient.Tracks.Get(trackId);
-            var artistNames = String.Join(" ", track.Artists.Select(a => a.Name));
+            var artistNames = string.Join(" ", track.Artists.Select(a => a.Name));
 
             var trackFullName = $"{artistNames} {track.Album.Name} {track.Name}";
 
