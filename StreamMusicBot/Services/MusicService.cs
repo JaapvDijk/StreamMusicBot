@@ -47,7 +47,7 @@ namespace StreamMusicBot.Services
 
             var _player = _lavaRestClient.GetPlayer(context.Guild);
 
-            var tracks = await _trackFactory.GetTrack(query);
+            var tracks = await _trackFactory.GetTracks(query);
 
             foreach (var track in tracks)
             {
@@ -186,7 +186,7 @@ namespace StreamMusicBot.Services
 
         public async Task<string> FavoritesAsync(string operation, string query)
         {
-            var track = await _trackFactory.GetTrack(query);
+            var track = await _trackFactory.GetTracks(query);
 
             if (operation.Equals("", StringComparison.OrdinalIgnoreCase))
             {

@@ -82,7 +82,7 @@ try
 }
 catch (Exception e)
 {
-    Log.Fatal($"Host terminated unexpectedly. \n {e}", e);
+    Log.Fatal($"Host terminated unexpectedly. \n {e}");
 }
 finally
 {

@@ -2,8 +2,6 @@
 using Victoria;
 using StreamMusicBot.MyExtensions;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace StreamMusicBot.Services
 {
@@ -15,8 +13,7 @@ namespace StreamMusicBot.Services
         {
             _lavaNode = lavaNode;
         }
-
-        public async Task<IEnumerable<LavaTrack>> GetTrack(string query)
+        public async Task<IEnumerable<LavaTrack>> GetTracks(string query)
         {
             var tracks = new List<LavaTrack>();
 
@@ -43,6 +40,5 @@ namespace StreamMusicBot.Services
                     return tracks;
             }
         }
-
     }
 }
