@@ -52,7 +52,8 @@ namespace StreamMusicBot.Services
             foreach (var track in tracks)
             {
                 var isPlaying = _player.PlayerState.Equals(PlayerState.Playing);
-                if (isPlaying)
+                var isEmpty = _player.Queue.Count == 0;
+                if (isPlaying || !isEmpty)
                     _player.Queue.Enqueue(track);
                 else
                     await _player.PlayAsync(track);
