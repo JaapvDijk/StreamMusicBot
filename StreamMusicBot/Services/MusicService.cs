@@ -240,6 +240,14 @@ namespace StreamMusicBot.Services
                     return "pause the current track at the current position \n" +
                            "Parameters: none";
 
+                case "resume":
+                    return "resume the currently playing track \n" +
+                           "Parameters: none";
+
+                case "unpause":
+                    return "resume the currently playing track \n" +
+                           "Parameters: none";
+
                 case "np":
                     return "Show the track that is currently playing \n" +
                            "Parameters: none";
@@ -261,7 +269,7 @@ namespace StreamMusicBot.Services
                 default:
                     return "'help {command_name}' \n" +
                            "The following commands are available: \n" +
-                           "Play, Leave, Stop, Skip, Volume, Pause, np, Forward, Queue, Favorites";
+                           "Play, Leave, Stop, Skip, Volume, Pause, Resume, Unpause, np, Forward, Queue, Favorites";
 
             }
         }

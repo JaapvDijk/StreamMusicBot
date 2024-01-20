@@ -85,6 +85,10 @@ namespace StreamMusicBot.Modules
         public async Task Resume()
             => await ReplyAsync(await _musicService.ResumeAsync(Context.Guild));
 
+        [Command("Unpause")]
+        public async Task Unpause()
+            => await ReplyAsync(await _musicService.ResumeAsync(Context.Guild));
+
         [Command("Queue")]
         public async Task Queue()
             => await ReplyAsync(await _musicService.QueueAsync(Context.Guild));
