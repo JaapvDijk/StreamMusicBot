@@ -78,7 +78,10 @@ namespace StreamMusicBot.Services
             amount = (amount <= nrTrackInQueue) ? amount : nrTrackInQueue;
 
             if (_player is null || _player.Queue.Count() is 0)
+            {
+                await _player.StopAsync();
                 return "Nothing in queue.";
+            }
 
             for (var i = 0; i < amount; i++) await _player.SkipAsync();
 
