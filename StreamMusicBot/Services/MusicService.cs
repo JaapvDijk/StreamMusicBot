@@ -115,13 +115,13 @@ namespace StreamMusicBot.Services
 
             if (_player.PlayerState.Equals(PlayerState.Paused))
             {
-                await _player.PauseAsync();
-                return "Player is Paused.";
+                await _player.ResumeAsync();
+                return "Playback resumed.";
             }
             else
             {
-                await _player.ResumeAsync();
-                return "Playback resumed.";
+                await _player.PauseAsync();
+                return "Playback paused.";
             }
         }
 
